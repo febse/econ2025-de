@@ -17,6 +17,7 @@ dependencies:
   - pyyaml
   - jupyter
   - tabulate
+  - qrcode
   - yaml
   - pip
   - pip:
