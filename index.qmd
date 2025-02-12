@@ -1,4 +1,4 @@
-# Setup {#sec-setup}
+# Setup {#sec-setup .unnumbered}
 
 ::: callout-note
 ## Website URL
