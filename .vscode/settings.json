@@ -62,5 +62,6 @@
     "xytext",
     "ylabel",
     "ylim"
-  ]
+  ],
+  "workbench.colorTheme": "Visual Studio Light"
 }
