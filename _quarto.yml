@@ -12,6 +12,7 @@ book:
   date: last-modified
   chapters:
     - index.qmd
+    - Hausarbeiten.qmd
     # - 00-Hausarbeit.qmd
     - part: "Einführung in Python"
       chapters:

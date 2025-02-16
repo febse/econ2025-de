@@ -43,30 +43,23 @@ Nachdem Sie eingeloggt sind, klicken Sie auf "File" und dann auf "Open Notebook"
 
 Wählen Sie "GitHub" und geben Sie den Namen des Kursrepositories ein:
 
-:::{.callout-note}
+::: callout-note
 ## Name des Kursrepositories
 
 {{< var githubShort >}}
 :::
 
-
 ![Github Button](./figures/colab/03-Github-Button.png)
 
 ![Namen eingeben](./figures/colab/04-Github-Address.png)
 
-Die Notebooks in dem Kursrepository werden aufgelisted. Wählen Sie das Notebook, das Sie öffnen möchten.
-Das Notebook wird in Google Colab geöffnet. Sie können den Code ausführen, indem Sie auf den Play-Button klicken.
-
-
-<!-- ![Notebook auswählen](./figures/colab/05-List-of-Notebooks.png) -->
-
+Die Notebooks in dem Kursrepository werden aufgelisted. Wählen Sie das Notebook, das Sie öffnen möchten. Das Notebook wird in Google Colab geöffnet. Sie können den Code ausführen, indem Sie auf den Play-Button klicken.
 
 ![Notebook geöffnet](./figures/colab/06-Opened-Notebook.png)
 
 Bevor Sie den Code ausführen, wird Ihnen eine Warnung angezeigt. Klicken Sie auf "Run anyway".
 
 ![Warnung](./figures/colab/07-Warning.png)
-
 
 ## Visual Studio Code (optional)
 

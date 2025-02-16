@@ -63,5 +63,6 @@
     "ylabel",
     "ylim"
   ],
-  "workbench.colorTheme": "Visual Studio Light"
+  "workbench.colorTheme": "Visual Studio Light",
+  "languageTool.language": "en,de"
 }

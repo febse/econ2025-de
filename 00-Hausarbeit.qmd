@@ -1,5 +1,6 @@
 # Hausarbeit {.unnumbered}
 
+
 Link zur Hausarbeit: <https://classroom.github.com/a/SI_ObvrM>. Der Abgabetermin ist der **23. Juni 2024, 12:00**
 
 1.  Klicken Sie auf den Einladungslink zur Aufgabe, melden Sie sich bei GitHub an und wählen Sie Ihre Studenten-ID aus der Liste aus. Bitte benutzen Sie eine E-Mail ([amarov\@feb.uni-sofia.bg](mailto:amarov@feb.uni-sofia.bg)), wenn Sie Ihre Studenten-ID dort nicht finden können. Bitte registrieren Sie sich bis zum **13. Juni 2024**.
