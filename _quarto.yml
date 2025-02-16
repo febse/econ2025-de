@@ -16,11 +16,9 @@ book:
     # - 00-Hausarbeit.qmd
     - part: "Einführung in Python"
       chapters:
-        - 01-Python/01-01-Basics.ipynb
-        - 01-Python/01-02-Basics-Ex.ipynb
-        - 01-Python/01-03-Numpy.ipynb
-        - 01-Python/01-04-Pandas.ipynb
-        - 01-Python/01-05-Pandas-Ex.ipynb
+        - 01-Python/01-Basics.ipynb
+        - 01-Python/02-Numpy.ipynb
+        - 01-Python/03-Pandas.ipynb
     - 02-Deskriptive-Statistik.ipynb
     # - 03-KQ-Methode.ipynb
     # - 04a-Diskrete-Verteilungen.ipynb
@@ -57,5 +55,6 @@ format:
   html:
     theme: cosmo
     html-math-method: katex
+    code-fold: true
 
 editor: visual
