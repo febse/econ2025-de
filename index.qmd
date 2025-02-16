@@ -1,4 +1,4 @@
-# Setup {#sec-setup .unnumbered}
+# Setup {.unnumbered}
 
 ::: callout-note
 ## Website URL
@@ -7,7 +7,6 @@
 
 ![](figures/qr_code.png)
 :::
-
 
 In den Übungen werden wir die Programmiersprache Python verwenden, um die in der Vorlesung behandelten Themen zu erklären und an realen Daten zu üben. Die Übungen werden in Form von Jupyter Notebooks bereitgestellt, die Sie in Ihrer eigenen Umgebung ausführen können.
 
@@ -29,19 +28,53 @@ Für die Übungen brauchen Sie ein GitHub.com Konto:
 -   Bei der Registrierung wählen Sie ein Passwort, das Sie nirgendwo anders verwenden. Am Ende des Semesters können Sie Ihr Passwort ändern.
 -   Empfehlung: Aktivieren Sie die [Zwei-Faktor-Authentifizierung (2FA)](https://docs.github.com/en/authentication/securing-your-account-with-two-factor-authentication-2fa/configuring-two-factor-authentication#configuring-two-factor-authentication-using-github-mobile) in den Einstellungen Ihres GitHub-Kontos.
 -   Empfehlung: Beantragen Sie die [Studentenvorteile](https://education.github.com/discount_requests/application), um kostenlosen Zugang zu GitHub Copilot zu erhalten, einem KI-gestützten Code-Completion- und Chat-Tool.
--   
-## Google Account
+
+## Google Colaboratory (empfohlen)
 
 Die Notebooks können auch in Google Colab ausgeführt werden. Dafür brauchen Sie ein Google-Konto. In Google Colab können Sie auch das KI Produkt Gemini benutzen.
 
+Um auf die Notebooks zuzugreifen, öffnen Sie zuerst die [Google Colab Website](https://colab.research.google.com/) und loggen Sie sich mit Ihrem Google-Konto ein.
 
-## Visual Studio Code
+![Nach Einloggen](./figures/colab/01-After-Login.png)
+
+Nachdem Sie eingeloggt sind, klicken Sie auf "File" und dann auf "Open Notebook".
+
+![Open Notebook](./figures/colab/02-Open-Notebook.png)
+
+Wählen Sie "GitHub" und geben Sie den Namen des Kursrepositories ein:
+
+:::{.callout-note}
+## Name des Kursrepositories
+
+{{< var githubShort >}}
+:::
+
+
+![Github Button](./figures/colab/03-Github-Button.png)
+
+![Namen eingeben](./figures/colab/04-Github-Address.png)
+
+Die Notebooks in dem Kursrepository werden aufgelisted. Wählen Sie das Notebook, das Sie öffnen möchten.
+Das Notebook wird in Google Colab geöffnet. Sie können den Code ausführen, indem Sie auf den Play-Button klicken.
+
+
+<!-- ![Notebook auswählen](./figures/colab/05-List-of-Notebooks.png) -->
+
+
+![Notebook geöffnet](./figures/colab/06-Opened-Notebook.png)
+
+Bevor Sie den Code ausführen, wird Ihnen eine Warnung angezeigt. Klicken Sie auf "Run anyway".
+
+![Warnung](./figures/colab/07-Warning.png)
+
+
+## Visual Studio Code (optional)
 
 Visual Studio Code (VSC) ist ein Open-Source-Code-Editor, den wir für die Arbeit mit Python benutzen werden.
 
 Installieren Sie Visual Studio Code von <https://code.visualstudio.com/>. Wählen Sie die Version, die zu Ihrem Betriebssystem passt und folgen Sie den Anweisungen.
 
-## Kursrepository klonen
+## Kursrepository klonen (optional)
 
 Öffnen Sie VSC und drücken Sie `Ctrl+Shift+P`. Suchen Sie nach "Git: Clone" und drücken Sie Enter. Geben Sie die URL des Kursrepositories ein:
 
@@ -60,28 +93,16 @@ Am Ende sollten Sie die folgenden Erweiterungen installiert haben:
 -   ms-python.debugpy
 -   ms-vscode-remote.remote-containers
 -   ms-toolsai.jupyter
--   github.codespaces
--   github.copilot
 
 Drucken Sie `Ctrl+Shift+X`. Dieses wird die Erweiterungsansicht öffnen. Überprüfen Sie ob alle Erweiterungen installiert sind. Falls nicht, kopieren Sie die Kennzeichen (z.B. `ms-python.autopep8`) der fehlenden Erweiterungen von der Liste (oben), finden Sie die Erweiterungen in der Erweiterungsansicht und installieren Sie sie manuell.
 
-## Python
+### Anaconda 3 (optional)
 
-Python ist zurzeit eine der meistbenutzten Programmiersprachen in der Welt. Es ist einfach zu lernen und hat eine große Community, die viele Bibliotheken und Frameworks entwickelt hat. In der Welt der Datenwissenschaft werden meistens Python und R benutzt. In den letzten Jahren stieg die Popularität von Python.
+Es gibt viele Möglichkeiten, wie Sie Python local auf Ihrem Rechner installieren können. Hier zeigen wir die Installation mit Anaconda 3. Conda ist ein Paketmanager, der es ermöglicht, Python-Umgebungen zu verwalten. Eine Python-Umgebung ist eine isolierte Instanz von Python, die es ermöglicht, verschiedene Versionen von Python und verschiedenen Bibliotheken zu verwenden, ohne dass sie sich gegenseitig beeinflussen. Das ist vor allem dann nützlich, wenn Sie an verschiedenen Projekten arbeiten, die unterschiedliche Anforderungen an Python und Bibliotheken haben.
 
-### Codespaces (empfohlen)
+-   Laden Sie das Miniconda Installationspaket von <https://www.anaconda.com/download/success> für Ihr Betriebssystem.
 
-Um die Konfiguration zu vereinfachen, können Sie Codespaces benutzen. In den ersten Übungen werden wir eine Anleitung zeigen, wie Sie Codespaces benutzen können.
-
-### Miniconda
-
-Es gibt viele Möglichkeiten, wie Sie Python local auf Ihrem Rechner installieren können. Hier zeigen wir die Installation mit Miniconda. Conda ist ein Paketmanager, der es ermöglicht, Python-Umgebungen zu verwalten. Eine Python-Umgebung ist eine isolierte Instanz von Python, die es ermöglicht, verschiedene Versionen von Python und verschiedenen Bibliotheken zu verwenden, ohne dass sie sich gegenseitig beeinflussen. Das ist vor allem dann nützlich, wenn Sie an verschiedenen Projekten arbeiten, die unterschiedliche Anforderungen an Python und Bibliotheken haben.
-
--   Laden Sie das Miniconda Installationspaket von <https://docs.conda.io/en/latest/miniconda.html> für Ihr Betriebssystem.
-
--   Starten Sie das Packet und folgen Sie den Anweisungen. Lassen Sie die Standardeinstellungen unverändert, es sei denn, Sie wissen was Sie tun.
-
--   Installieren Sie Conda in einem Ordner ohne Leerzeichen und nur mit ASCII Zeichen im Pfad (d.h. keine Kyrillischen Zeichen, keine Umlaute, etc.), z.B. `C:\Miniconda3` oder `C:\Users\boyko\Miniconda3`.
+-   Starten Sie das Packet und folgen Sie den Anweisungen. Lassen Sie die Standardeinstellungen unverändert, es sei denn, Sie wissen was Sie tun. Achtung: die Installation kann lange Zeit dauern.
 
 -   Nachdem Miniconda installiert ist, öffnen Sie VSC. Drücken Sie `Ctrl+Shift+P` und starten Sie zu schreiben: "Python: Create environment". Wenn die Option in dem Dropdown-Menü erscheint, wählen Sie sie und drucken Sie Enter.
 
