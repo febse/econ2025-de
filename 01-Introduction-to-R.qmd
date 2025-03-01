@@ -1,0 +1,374 @@
+# Introduction to R
+
+In den ersten Klassen werden wir die grundlegende Struktur eines Quarto Dokuments und wie wir `R` Code und Text mischen können, um Dokumente zu erstellen.
+
+Ein Quarto Dokument ist eine reine Textdatei, die Sie in jedem Texteditor (z.B. Notepad, Emacs, Kate, etc.) öffnen können. Es besteht aus zwei Teilen: dem Header am Anfang der Datei. Der Header beginnt mit drei Bindestrichen in einer separaten Zeile und endet mit drei Bindestrichen in einer separaten Zeile. Zwischen den Bindestrichen können Sie verschiedene Optionen in einem `yml`-Format angeben, wie z.B. den Autor und den Titel des Dokuments, aber diese werden für unseren Kurs im Allgemeinen irrelevant sein und wir werden sie ignorieren. R-Studio hat zwei Bearbeitungsmöglichkeiten für Quarto Dokumente: `Source` und `Visual`. Nach dem Öffnen eines Quarto Dokuments finden Sie zwei Schaltflächen (`Source` und `Visual`) direkt unter dem Dateinamen (unter dem Speichern-Symbol). Klicken Sie auf die Schaltfläche `Visual`, um sie zu aktivieren (falls nicht schon aktiv). Dieses zeigt Ihnen 
+
+Im Hauptteil des Dokuments schreiben wir Code in Codeblöcken (code chunks), die mit drei Backticks anfangen und mit drei Backticks enden. Nach der ersten Sequenz von Backticks gibt es einen Sprachidentifikator, der in unserem Fall immer `r` sein wird.
+
+
+```{r}
+if (!requireNamespace("tidyverse", quietly = TRUE)) {
+  install.packages("tidyverse")
+}
+
+library(tidyverse)
+```
+
+Sie mehr Informationen über Quarto [hier](https://quarto.org/).
+
+::: callout-note
+## Shortcuts
+
+Häufig verwendete Tastenkombinationen in R Studio:
+
+-   `Ctrl+Enter`: Führt die aktuelle Zeile aus
+-   `Ctrl+Shift+Enter`: Führt den aktuellen Codeblock aus
+-   `Ctrl+Alt+i`: Fügt ein neues Codeblock ein (funktioniert nur in Source Ansicht)
+
+You can find more shortcuts and a concise overview of the elements of R Studio in the [R Studio Cheatsheet](https://posit.co/wp-content/uploads/2022/10/rstudio-ide-1.pdf).
+
+Mehr Tastenkombinationen finden Sie unter `Help` -\> `Keyboard Shortcuts Help`. Eine Übersicht über R Studio finden Sie im [R Studio Cheatsheet](https://posit.co/wp-content/uploads/2022/10/rstudio-ide-1.pdf).
+
+
+:::
+
+## Arithmetische Operationen
+
+```{r}
+1 + 4
+3 - 2
+2 * 8
+2 / 8
+2^4
+```
+
+## Zuweisungen
+
+Sehr häufig möchten wir einen Wert im Speicher des Computers speichern, damit wir ihn später abrufen können. In R speichern wir Werte unter *Namen* (Variablen), indem wir den Zuweisungsoperator `<-` verwenden.
+
+::: callout-warning
+## Assignment Operator Shortcut
+
+Sie können den gesamten `<-`-Operator einfügen, indem Sie `Alt -` (Minus) drücken. Es ist wichtig zu beachten, dass `<-` und `< -` (mit Leerzeichen zwischen den Zeichen) völlig unterschiedliche Dinge tun (siehe unten).
+
+:::
+
+Führen Sie den folgenden Codeblock aus und schauen Sie sich die globale Umgebung (rechte Seite von R Studio) an, um zu sehen, dass der Name `y` in der Liste der Objekte erscheint.
+
+```{r}
+y <- 34
+y - 40
+```
+
+```{r}
+y < - 20
+```
+
+
+::: {#exr-r-arithmetc}
+## Zuweisung und arithmetische Operationen
+
+Create two new variables called `x1` and `x2` and assign them the values 3 and 4, respectively. Then create a new variable called `y` and assign it the value of the sum of `x1` and `x2`. Print the value of `y` to the console either by placing the variable name in the last line of the code chunk or by using the `print` function.
+Erstellen Sie zwei neue Variablen namens `x1` und `x2` und weisen Sie ihnen die Werte 3 und 4 zu. Erstellen Sie dann eine neue Variable namens `x12` und weisen Sie ihr den Wert der Summe von `x1` und `x2` zu. Drucken Sie den Wert von `x12` in die Konsole, indem Sie den Variablennamen in der letzten Zeile des Codeblocks platzieren oder die `print`-Funktion verwenden.
+:::
+
+```{r}
+# Schreiben Sie Ihren Code hier
+x1 <- 3
+x2 <- 4
+x12 <- x1 + x2
+x12
+```
+
+## Numerische Vektoren
+
+Es ist sehr häufig, Werte, die zusammengehören, in einer einzigen Struktur zu gruppieren. Sie können Vektoren mit der Funktion `c` (concatenate) erstellen.
+
+```{r}
+x <- c(1, 4)
+x
+```
+
+```{r}
+## Arithmetischer Mittelwert, Summe und Länge
+mean(x)
+sum(x)
+length(x)
+```
+
+```{r}
+## Documentation
+# ?mean
+```
+
+Vektoren können nur Daten desselben Typs enthalten: entweder numerisch, Zeichen oder logisch. Wenn Sie versuchen, einen Vektor mit verschiedenen Datentypen zu erstellen, wird R die Daten in denselben Typ umwandeln. Wenn Sie beispielsweise versuchen, einen Vektor mit einer Zahl und einem String zu erstellen, wird R die Zahl in einen String umwandeln.
+
+::: {#exr-r-vector-arithmetic}
+## Vector Assignment
+
+Erstellen Sie eine neue Variable namens `incomes` und weisen Sie ihr die Werte 100, 200, 300, 400, 500 zu (Sie können diese Werte einfach von hier kopieren und in den Codeblock einfügen). Verwenden Sie die Funktion `c`, um die Werte in einen Vektor zu packen.
+
+-   Berechnen Sie das durchschnittliche Einkommen und das Gesamteinkommen und speichern Sie sie in den Variablen `income_avg` und `income_total`. Verwenden Sie die Funktionen `mean` und `sum`, um die Werte zu berechnen.
+-   Subtrahieren Sie das durchschnittliche Einkommen von jedem Element des Vektors und speichern Sie das Ergebnis in einer neuen Variablen namens `income_diff`. Drucken Sie das Ergebnis in die Konsole.
+-   Berechnen Sie den Durchschnitt des neuen Vektors `income_diff`. Ist das Ergebnis überraschend?
+:::
+
+```{r}
+# Write your code here
+
+incomes <- c(100, 200, 300, 400, 500)
+income_avg <- mean(incomes)
+income_total <- sum(incomes)
+income_diff <- incomes - income_avg
+
+income_diff
+mean(income_diff)
+```
+
+## Zeichenvektoren
+
+Es gibt drei Arten von Vektoren in R: numerisch, Zeichen und logisch. Zeichenvektoren werden verwendet, um Textdaten zu speichern. Wenn Sie Text in R schreiben, müssen Sie ihn in Anführungszeichen setzen. Sie können entweder einfache oder doppelte Anführungszeichen verwenden, aber Sie müssen konsistent sein.
+
+```{r}
+z1 <- "Hello World"
+z <- c("Alpha", "Bravo", "Charlie", "Delta", "Echo")
+```
+
+::: callout-warning
+## Groß- und Kleinschreibung
+
+R is a case-sensitive language. This means that `Hello` and `hello` are two completely different strings. This also applies to function names. For example, `mean` and `Mean` are two different functions in R. Uncomment (remove the \# character from the beginning of the second line) and run the following code chunk to see the error message that R will produce.
+
+R unterscheidet zwischen Groß- und Kleinschreibung. Das bedeutet, dass `Hello` und `hello` zwei völlig verschiedene Zeichenfolgen sind. Dies gilt auch für Funktions-und Variablennamen. Zum Beispiel sind `mean` und `Mean` (exisitert nicht) zwei verschiedene Objekte in R. Entfernen Sie das `#` Zeichen und führen Sie den folgenden Codeblock aus, um die Fehlermeldung zu sehen, die R produziert. 
+:::
+
+```{r}
+mean(x)
+# Mean(x)
+```
+
+
+## Recycling
+
+Wie Sie bereits in @exr-r-vector-arithmetic gesehen haben, ist R eine vektorisierte Sprache. Das bedeutet, dass die meisten Operationen elementweise auf Vektoren ausgeführt werden. In den meisten Situationen ist dies eine bequeme Eigenschaft, denn sie erlaubt es Ihnen, prägnanten und lesbaren Code zu schreiben. Sie sollten sich jedoch darüber im Klaren sein, wie R mit Operationen auf Vektoren unterschiedlicher Länge umgeht. Wenn Sie versuchen, eine Operation mit zwei Vektoren unterschiedlicher Länge durchzuführen, wird R den kürzeren Vektor so umwandeln, dass er der Länge des längeren Vektors entspricht. Dies wird *Recycling* oder *Broadcasting* genannt.
+
+Lassen Sie uns an einem Beispiel sehen, wie Recycling funktioniert. Wir wollen zu jedem Element eines Vektors einen Skalar hinzufügen. Mathematisch gesehen macht dies keinen Sinn, da man nur zwei Vektoren gleicher Länge elementweise addieren/subtrahieren kann. R recycelt jedoch den Skalar, um ihn an die Länge des Vektors anzupassen. Recycling bedeutet, dass ein neuer Vektor erzeugt wird, indem der kürzere Vektor so lange wiederholt wird, bis er die gleiche Länge wie der längere Vektor hat.
+
+```{r}
+c(2, 5) + 1
+```
+
+```{r}
+c(2, 3, 5, 7) + c(10, 20)
+c(2, 3, 5, 7) / c(10, 20)
+```
+
+Seien Sie vorsichtig, wenn Sie Recycling verwenden, da es zu unerwarteten Ergebnissen führen kann. Wenn Sie zum Beispiel versuchen, zwei Vektoren unterschiedlicher Länge zu addieren, wird R den kürzeren Vektor trotzdem recyceln, um ihn an die Länge des längeren Vektors anzupassen, aber es wird auch eine Warnung ausgeben.
+
+```{r}
+c(1, 2, 10) + c(2, 5)
+```
+
+Achten Sie auf die Warnmeldung. Sie besagt, dass der kürzere Vektor recycelt wird, um mit der Länge des längeren Vektors übereinzustimmen, aber es kann den kürzeren Vektor nicht so erweitern, dass er genau mit dem längeren Vektor übereinstimmt. Dies ist zwar kein Fehler, der Ihr Programm zum Stillstand bringt, aber in den meisten Fällen ist dies nicht das, was Sie wollen, sondern eine Folge eines vorherigen Fehlers. Sie sollten sich nicht darauf verlassen, dass Vektoren mit inkompatiblen Längen wiederverwendet werden. Stattdessen sollten Sie explizit angeben, was Sie tun wollen.
+
+## Logische Operatoren und logische Werte
+
+Es gibt zwei logische Werte: `TRUE` und `FALSE`. Diese ergeben sich aus logischen Operationen und geben an, ob eine Bedingung erfüllt ist (`TRUE`) oder nicht (`FALSE`). Ähnliche Konstrukte finden Sie in allen anderen Sprachen, wo diese Art von Daten üblicherweise als *boolean* oder *binary* (d.h. nur zwei Werte) bezeichnet wird.
+
+Die grundlegenden logischen Operatoren in `R` sind
+
+```{r}
+## Kleiner als
+2 < 5
+## Kleiner als oder gleich
+2 <= 5
+## Größer als
+2 > 5
+## Größer oder gleich
+2 >= 5
+## Genau gleich
+2 == 5
+
+"Text 2" == "Text 2"
+```
+
+```{r}
+c(1, 2, 3, 4) == 2
+```
+
+```{r}
+c(1, 2, 3, 4) > 2
+```
+
+```{r}
+c(1, 2, 3, 4) < 2
+```
+
+```{r}
+c(1, 2, 3, 4) <= 2
+```
+
+```{r}
+c(1, 2, 3, 4) >= 2
+```
+
+```{r}
+some_char_vector <- c("Indien", "Foxtrott", "Golf", "Hotel", "Indien")
+some_char_vector == "Indien"
+```
+
+::: callout-warning
+## Strenge Gleichheit und Fließkommazahlen
+
+Strenge Gleichheit ist im Allgemeinen für Strings und ganze Zahlen sinnvoll, aber nicht für Fließkommazahlen! Das liegt daran, dass reelle Zahlen nicht exakt im Speicher abgelegt werden können und Computer mit endlicher Genauigkeit arbeiten. Dies kann zu unerwarteten Ergebnissen führen, wenn man Fließkommazahlen vergleicht. Sie können zum Beispiel ein Ergebnis wie dieses erhalten:
+
+```{r}
+sqrt(2)^2 == 2
+```
+
+Mathematisch gesehen ist $\sqrt(2)^2$ genau gleich 2, aber der Vergleich in `R` liefert `FALSE`.
+
+Wenn Sie die Zahl auf der Konsole ausgeben, sehen Sie den Unterschied möglicherweise nicht, weil die Druckfunktion die Zahl formatiert. Um Fließkommazahlen zu vergleichen, sollten Sie die Funktion `all.equal` verwenden, die die endliche Genauigkeit von Fließkommazahlen berücksichtigt.
+
+```{r}
+all.equal(sqrt(2)^2, 2)
+```
+:::
+
+::: {#exr-r-logische-operatoren}
+## Logische Operatoren und logische Werte
+
+Verwenden Sie den Vektor `incomes` aus der vorherigen Übung. Erstellen Sie einen neuen Vektor mit dem Namen `is_high_income`, der die logischen Werte dafür enthält, ob das Einkommen größer als der Durchschnitt ist. Zählen Sie die Anzahl der Elemente mit hohem Einkommen und ermitteln Sie den Anteil der hohen Einkommen.
+:::
+
+```{r}
+# Schreiben Sie hier Ihren Code
+is_high_income <- incomes > income_avg
+sum(is_hohe_Einkommen)
+mean(is_high_income)
+```
+
+## Indizierung
+
+Mit Hilfe der eckigen Klammern können Sie auf Elemente eines Vektors zugreifen. Der Index des ersten Elements ist 1, nicht 0 (dies ist anders als in vielen anderen Programmiersprachen). Sie können auch negative Indizes verwenden, um Elemente aus dem Vektor auszuschließen.
+
+```{r}
+expenses <- c(100, 200, 300, 400, 500)
+expenses[1]
+```
+
+```{r}
+expenses[2:4]
+```
+
+```{r}
+expenses[-1]
+```
+
+Sie können auch logische Vektoren verwenden, um einen Vektor zu indizieren.
+
+```{r}
+expenses[c(TRUE, FALSE, TRUE, FALSE, TRUE)]
+```
+
+::: {#exr-r-indexing}
+## Indizierung
+
+Verwenden Sie den Vektor `incomes` aus der vorherigen Übung. Erstellen Sie einen neuen Vektor mit dem Namen `is_low_income`, der die logischen Werte dafür enthält, ob das Einkommen unter dem Durchschnitt liegt. Wählen Sie alle Elemente aus dem Vektor `incomes` aus, die ein niedriges Einkommen aufweisen. Wie viele Elemente mit niedrigem Einkommen gibt es?
+:::
+
+```{r}
+# Schreiben Sie Ihren Code hier
+is_low_income <- incomes < mean(incomes)
+is_low_income[length(is_low_income)]
+
+incomes[is_low_income]
+length(incomes[is_low_income])
+```
+
+
+## Pipes
+
+Im nächsten Abschnitt werden wir Datenmanagement in R diskutieren und dort werden wir sehr häufig die sogenannten *Pipes* verwenden. Pipes sind ein Konzept, das in R sehr häufig verwendet wird, um den Code lesbarer und einfacher zu schreiben. Wir werden das Konzept anhand eines Beispiels einführen.
+Mehr Informationen zu Pipes finden Sie [hier](https://r4ds.had.co.nz/pipes.html).
+
+Sie können den `%>%` Operator als "und dann" lesen. Zum Beispiel, der folgende Code berechnet den Durchschnitt der Werte in `x` auf zwei verschiedene Arten. Die erste Methode ist die traditionelle Methode, die andere Methode verwendet Pipes.
+
+
+```{r}
+x <- c(-1, 1, 1)
+
+## Direkt die Funktionen aufrufen und die Daten als ersten Argument übergeben
+mean(x)
+
+## Mit Pipes
+x %>% mean()
+```
+
+
+Dieses macht den Code lesbarer und einfacher zu verstehen. Das ist insbesondere dann nützlich, wenn Sie viele Funktionen hintereinander aufrufen. Sie können die Pipe verwenden, um den Output einer Funktion als Input für die nächste Funktion zu verwenden.
+
+::: callout-info
+## Shortcut für Pipes
+
+
+Sie können die Tastenkombination `Ctrl + Shift + M` verwenden, um den Pipe-Operator in R Studio einzufügen.
+:::
+
+```{r}
+x %>% 
+  mean() %>%  
+  abs() %>%  
+  sqrt() %>% 
+  round(digits=2)
+```
+
+This is a lot nicer and easier to read than the equivalent
+
+```{r}
+round(sqrt(abs(mean(x))), digits=2)
+```
+
+::: {#exr-r-pipes}
+## Pipes
+
+Compute the square root of the numbers 2 and three, then take the (natural) logarithm of the result and round it to three decimal places. Compute the result
+
+1.  Using nested function calls
+2.  Using the pipe operator
+
+*Hint*: use the functions `sqrt`, `log`, and `round`.
+
+Berechnen Sie die Quadratwurzel der Zahlen 2 und 3, dann nehmen Sie den (natürlichen) Logarithmus des Ergebnisses und runden Sie es auf drei Dezimalstellen. Berechnen Sie das Ergebnis
+
+1.  Mit verschachtelten Funktionsaufrufen
+2.  Mit dem Pipe-Operator
+
+$$
+\log{\sqrt{2}} \quad \text{and} \quad \log{\sqrt{3}}
+$$
+:::
+
+```{r}
+# Schreiben Sie Ihren Code hier
+
+round(log(sqrt(c(2, 3))), digits=3)
+
+2 %>% 
+  sqrt() %>% 
+  log() %>% 
+  round(digits=3)
+
+3 %>%
+  sqrt() %>%
+  log() %>%
+  round(digits=3)
+
+# Oder beide Werte in einem Vektor
+
+c(2, 3) %>% 
+  sqrt() %>% 
+  log() %>% 
+  round(digits=3)
+```

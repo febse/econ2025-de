@@ -2,59 +2,36 @@ project:
   type: book
   output-dir: _site
 
-execute: 
-  enabled: true
-
-lang: de
 book:
-  title: "Einführung in die Ökonometrie"
+  title: "Introduction to Linear Regression Analysis"
   author: "Boyko Amarov"
   date: last-modified
   chapters:
     - index.qmd
-    - Hausarbeiten.qmd
-    # - 00-Hausarbeit.qmd
-    - part: "Einführung in Python"
-      chapters:
-        - 01-Python/01-Basics.ipynb
-        - 01-Python/02-Numpy.ipynb
-        - 01-Python/03-Pandas.ipynb
-    - 02-Deskriptive-Statistik.ipynb
-    # - 03-KQ-Methode.ipynb
-    # - 04a-Diskrete-Verteilungen.ipynb
-    # - 04b-Stetige-Verteilungen.ipynb
-    # - 05-Einweg-Varianzanalyse.ipynb
-    # - 06-Multiples-Regressionsmodell.ipynb
-    # - 07-NL.ipynb
-    # - 08-Interaction-Effects.ipynb
-    
-    #     - 02-Review/02-Probability.ipynb
-    # - part: "Einfache Lineare Regression"
-    #   chapters:
-    #     - 03-Simple-Regression/01-Continuos-Predictor.ipynb
-        # - 03-Simple-Regression/02-One-Way-ANOVA.ipynb
-    # - 00-Homework-Instructions.qmd
-    # - 02-Statistics-Review.qmd
-    # - 01-Introduction-to-R.qmd
+    # - 00-Homework.qmd
+    - 00-Recommended-Literature.qmd
+    - 01-Introduction-to-R.qmd
+    - 02-Descriptive-Statistics.qmd
+    # - 03-Least-Squares.qmd
+    # - 04a-Discrete-Distributions.qmd
+    # - 04b-Continuous-Distributions.qmd
+    # - 05-One-Way-ANOVA.qmd
+    # - 06-Simulation.qmd
+    # - 07-Multiple-Regression.qmd
+    # - 08-Interactions.qmd
+    # - lecture_problems.qmd
+    # - 00-Homework-Instructions.qmd  
     # - 02a-Continuous-Distributions.qmd
     # - 03-Simple-Linear-Model.qmd
     # - 04-Simple-ANOVA.qmd
     # - 05-Hypothesis-Testing-and-CI.qmd
-    - Literature.qmd
     - references.qmd
-  # appendices:
-  #   - Appendices/02-Random-Variables.ipynb
-  #   - Appendices/03-Die-Normalverteilung.ipynb
-  #   - Appendices/04-LA.ipynb
 
-bibliography: 
-  - references.bib
-  - examples.bib
+bibliography: references.bib
 
 format:
   html:
     theme: cosmo
     html-math-method: katex
-    code-fold: true
 
 editor: visual
