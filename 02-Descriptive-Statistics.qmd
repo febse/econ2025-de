@@ -1,11 +1,8 @@
-# Descriptive Statistics
+# Deskriptive Statistik
 
 ## Data Frames (Tibbles)
 
-In most of our work we will use data tables containing variables (columns) that describe characteristics of observations (rows). Most of the time we will use `tibble` objects to hold the data. `tibble` objects are a modern rewrite of the `data.frame` (an older object type for storing data).
-
-To use it we need to load the `dplyr` package, a part of the `tidyverse` collection of packages.
-
+In R werden wir die Daten in Form von Tabellen verwenden, die Variablen (Spalten) enthalten, die die Merkmale der Beobachtungen (Zeilen) beschreiben. Die meisten der Zeit werden wir `tibble`-Objekte verwenden, um die Daten zu halten.
 
 ```{r}
 if (!requireNamespace("tidyverse", quietly = TRUE)) {
@@ -18,37 +15,40 @@ library(readxl)
 
 In a limited number of cases we need to construct tables by hand. You can find out more about `tibble` [here](https://tibble.tidyverse.org/articles/tibble.html).
 
+In einigen Anwendungen ist es nützlich, Tabellen manuell zu erstellen. Sie können mehr über
+`tibble` [hier](https://tibble.tidyverse.org/articles/tibble.html) erfahren.
+
 ```{r}
-# Create a tibble (a type of data frame)
+# Wir erstellen eine Tabelle mit den Daten von fünf Personen
 dt <- tibble(
-  ## Shorthand syntax for creating a sequence of integers from one to five
+  ## Kurzschreibweise für die Erstellung einer Sequenz von Ganzzahlen von eins bis fünf
   id = 1:5,
   name = c("Alice", "Bob", "Charlie", "David", "Eve"),
   billableHours = c(2, 2.5, 3, 8, 12)
 )
 
-# Print the data
+# Wir zeigen die Tabelle an
 dt
 ```
 
-Most of our data will come from external sources such as text files in a CSV format. For the purpose of this course you don't need to worry about importing such files, you will always have a starter code chunk that handles the import.
+
+In den meisten Fällen werden wir externe Datenquellen wie Textdateien im CSV-Format verwenden. Für diesen Kurs werden die Daten immer in einem Starter-Code-Schnipsel importiert.
 
 The dataset `bikes` contains hourly usage data of shared bikes in London between 2015 and 2017.
 
-Columns (variables) in the dataset:
+Der Datensatz `bikes` enthält stündliche Nutzungsdaten von Fahrrädern in London zwischen 2015 und 2017. Er hat die folgenden Variablen (Spalten):
 
--   `timestamp` - timestamp field for grouping the data
--   `cnt` - the count of a new bike shares
--   `t1` - real temperature in degrees Fahrenheit
--   `t2` - temperature in degrees Fahrenheit (feels like)
--   `hum` - humidity in percentage
--   `wind_speed` - wind speed in miles per hour
--   `weather_code` - category of the weather
--   `is_holiday` - boolean field - 1 holiday / 0 non holiday
--   `is_weekend` - boolean field - 1 if the day is weekend
--   `season` - category field meteorological seasons: 0-spring ; 1-summer; 2-fall; 3-winter.
+-   `timestamp` - Die Zeit, zu der die Daten aufgezeichnet wurden (Anfang der Stunde)
+-   `cnt` - Die Anzahl der neuen Fahrradvermietungen in dieser Stunde
+-   `t1` - Temperatur in Grad Fahrenheit
+-   `t2` - Temperatur in Grad Fahrenheit (gefühlte Temperatur)
+-   `hum` - Luftfeuchtigkeit in Prozent
+-   `wind_speed` - Windgeschwindigkeit in Meilen pro Stunde
+-   `weather_code` - Wettercode (kategorische Variable)
+-   `is_holiday` - Indikator für Feiertage
+-   `is_weekend` - Indikator für Wochenenden
+-   `season` - Jahreszeiten: 0-Frühling; 1-Sommer; 2-Herbst; 3-Winter
 
-We will use this data set to demonstrate some common operations and basic data summaries.
 
 ```{r}
 # Download and import the raw data from a CSV file
@@ -63,9 +63,11 @@ bikes <- read_csv("https://github.com/febse/data/raw/refs/heads/main/econ/bike_s
 bikes %>% head()
 ```
 
-## Crating New Variables (Columns)
+## Neue Variablen erstellen
 
 Before we start summarizing the data, we will convert some of the variables to more familiar units: temperature from Fahrenheit to Celsius, wind speed from miles per hour h to m/h.
+
+Als Übung werden wir die zwei Temperaturvariablen `t1` und `t2` von Fahrenheit in Celsius umwandeln. Die Formel zur Umrechnung von Fahrenheit in Celsius lautet:
 
 $$
 \text{Degree Celsius} = \frac{\text{Degree Fahrenheit} - 32}{1.8}
@@ -78,7 +80,7 @@ bikes %>%
   )
 ```
 
-Note that the object holding the original data is unaffected by mutate and select. The reason for this is that functions in R generally do not change their arguments. If you want to add the two new columns to the original data set `bikes`, you need to overwrite it with an assignment.
+Beachten Sie, daß das Objekt, das die ursprünglichen Daten enthält, durch `mutate` nicht verändert wird. Der Grund dafür ist, dass Funktionen in R im Allgemeinen ihre Argumente nicht ändern. Wenn Sie die beiden neuen Spalten dem ursprünglichen Datensatz `bikes` hinzufügen möchten, müssen Sie ihn mit einer Zuweisung überschreiben.
 
 ```{r}
 bikes <- bikes %>%
@@ -98,7 +100,7 @@ Create a new column in the `bikes` dataset called `temp_felt_c` that contains th
 ```
 :::
 
-## Basic Data Summaries
+## Datenüberblick
 
 The first step in any data analysis is to gain an initial understanding of the context of the data and the distributions of the variables of interest. In this course our main focus will be on two features of the variables: their location and their variability (how different are the observations between each other). In addition, an initial screening of is helpful to identify potential problems in the data:
 
@@ -108,38 +110,44 @@ The first step in any data analysis is to gain an initial understanding of the c
 
 It is especially important to detect these problems in the early stages of the analysis.
 
-### Location
+Der esrte Schritt in jeder Datenanalyse besteht darin, ein erstes Verständnis des Kontexts der Daten und der Verteilungen der interessierenden Variablen zu gewinnen. In diesem Kurs werden wir uns hauptsächlich auf zwei Merkmale der Variaben konzentrieren: ihre Lokation und ihre Variabilität (wie unterschiedlich sind die Beobachtungen untereinander). Darüber hinaus ist ein erster Screening hilfreich, um potenzielle Probleme in den Daten zu identifizieren:
+
+### Lokation (Mittelpunkt)
 
 The most important measure of location for us will be the empirical mean of a variable (arithmetic average). Let $i$ index the observation in our data set from the first ($i = 1$) to the last $i = n$. In our case $n = 1816$: the number of all interviewed customers. We can represent the values of some (numeric) characteristic (e.g., the persons' weight) as a vector of values $x = (x_1, \ldots, x_n)$. In this notation $x_1$ is the weight of the first customer in the data set ($x_1 = 210$ pounds). The arithmetic average is defined as the sum of all values divided by the number of observations:
+
+Die wichtigste Maßzahl für die Lokation wird für uns der empirische Mittelwert einer Variablen (arithmetisches Mittel) sein. Lassen Sie $i$ die Beobachtung in unserem Datensatz vom ersten ($i = 1$) bis zum letzten $i = n$ indizieren. In unserem Fall $n = 1816$: die Anzahl aller befragten Kunden. Wir können die Werte einer (numerischen) Eigenschaft (z.B. das Gewicht der Personen) als Vektor von Werten $x = (x_1, \ldots, x_n)$ darstellen. In dieser Notation ist $x_1$ das Gewicht des ersten Kunden im Datensatz ($x_1 = 210$ Pfund). Der arithmetische Durchschnitt ist definiert als die Summe aller Werte geteilt durch die Anzahl der Beobachtungen:
 
 $$
 \bar{x} = \frac{1}{n}(x_1 + x_2 + \ldots + x_n) = \frac{1}{n}\sum_{i = 1}^{n} x_i
 $$
 
-Let us now compute the arithmetic average of `weight` and `height`. One way to access the columns of the data set `earnings` is to write the name of the data set and then after a \$ sign the name of the column.
+
+Lassen Sie uns nun den arithmetischen Durchschnitt von `cnt` berechnent.
 
 ```{r}
 mean(bikes$cnt)
 ```
 
-Another measure of location is the (empirical) median. You can compute it using the `median` function.
+Eine andere Maßzahl für die Lokation ist der (empirische) Median. Sie können ihn mit der Funktion `median` berechnen.
 
 ```{r}
 median(bikes$cnt)
 ```
 
 ::: {#exr-location}
-## Location (Mean and Median)
+## Lokation (Mittelwert und Median)
 
-Compute the average and the median temperature. How do you interpret these values?
+Berechnen Sie den arithmetischen Durchschnitt und den Median der Temperatur (`temp_c`). Wie interpretieren Sie diese Werte?
 
 ```{r}
-# Write your code here
+# Schreiben Sie Ihren Code hier
 
 ```
 :::
 
-Other measures of locations are the mode (the most frequent value) and the quantiles. In general, the mode *does not make sense* only makes sense for categorical variables.
+
+Andere Maßzahlen für die Lokation sind der Modus (der häufigste Wert) und die Quantile. Im Allgemeinen macht der Modus nur für kategoriale Variablen Sinn.
 
 ```{r}
 min(bikes$cnt)
@@ -151,6 +159,8 @@ quantile(bikes$cnt, probs = c(0, 0.25, 0.5, 0.75, 1))
 
 The first quartile of `cnt` (25-th percentile and 0.25 quantile are different names for the same thing) is the number of bike rentals per hour such that about 25 percent (one quarter) of the hours had fewer rentals.
 
+Das erste Quantil von `cnt` (25-tes Perzentil und 0,25 Quantil sind unterschiedliche Namen für dasselbe) ist die Anzahl der Fahrradvermietungen pro Stunde, so dass etwa 25 Prozent (ein Viertel) der Stunden weniger Vermietungen hatten. 
+
 ```{r}
 quantile(bikes$cnt, 0.25)
 
@@ -160,7 +170,7 @@ quantile(bikes$cnt, 0.25)
 mean(bikes$cnt < 257)
 ```
 
-The second quartile is the same as the median (two quarters).
+Das zweite Quartil ist das gleiche wie der Median (zwei Viertel).
 
 ```{r}
 quantile(bikes$cnt, 0.5)
@@ -168,7 +178,7 @@ median(bikes$cnt)
 mean(bikes$cnt < median(bikes$cnt))
 ```
 
-The third quartile is the number of hourly rentals such that about 75 percent of the hours had fewer rentals (and about 25 percent had more rentals).
+Das dritte Quartil ist die Anzahl der stündlichen Vermietungen, so dass etwa 75 Prozent der Stunden weniger Vermietungen hatten (und etwa 25 Prozent mehr Vermietungen hatten).
 
 ```{r}
 quantile(bikes$cnt, 0.75)
@@ -177,7 +187,7 @@ mean(bikes$cnt > quantile(bikes$cnt, 0.75))
 ```
 
 ::: {#exr-location-quantiles}
-## Minimum, Maximum, and Quartiles
+## Minimum, Maximum, und Quartile
 
 Compute the minimum, maximum, and the quartiles of the `temp_c` variable. How do you interpret these values? Compute the proportion of hours with a temperature:
 
@@ -188,17 +198,28 @@ Compute the minimum, maximum, and the quartiles of the `temp_c` variable. How do
 -   Between the median and the third quartile.
 -   Between the median and the first quartile.
 
+Berechnen Sie das Minimum, Maximum und die Quartile der Variablen `temp_c`. Wie interpretieren Sie diese Werte? Berechnen Sie den Anteil der Stunden mit einer Temperatur:
+
+-   Unter dem ersten Quartil
+-   Über dem Median
+-   Über dem dritten Quartil.
+-   Zwischen dem ersten und dem dritten Quartil.
+-   Zwischen dem Median und dem dritten Quartil.
+
+
 ```{r}
 # Write your code here
 
 ```
 :::
 
-### Variability (Spread)
+### Variabilität
 
-The next important feature of the data is its variability. It answers the following question: how different are the customers between each other with respect to body height (for example). There are numerous ways to measure variability. To illustrate this, let us consider look at the boxplot of the `cnt` variable by `season`.
+The next important feature of the data is its variability. It answers the following question: how different were the hours in the data with respect to the number of rented bikes. There are numerous ways to measure variability. To illustrate this, let us consider look at the boxplot of the `cnt` variable by `season`.
 
 A boxplot is a graphical representation of the distribution of the data that uses the quartiles to show the location and the spread of the data. The boxplot shows the median (the second quartile), the first and the third quartile (the 25-th and the 75-th percentile), and the whiskers that extend to the most extreme data points that are not considered outliers. Outliers are shown as individual points.
+
+Der nächste wichtige Aspekt der Daten ist ihre Variabilität. Es beantwortet die Frage: Wie unterschiedlich waren die Stunden in den Daten hinsichtlich der Anzahl der vermieteten Fahrräder. Es gibt zahlreiche Möglichkeiten, die Variabilität zu messen. Um dies zu veranschaulichen, betrachten wir den Boxplot der Variablen `cnt` nach `season`.
 
 ```{r}
 bikes %>%
@@ -206,7 +227,10 @@ bikes %>%
   geom_boxplot()
 ```
 
+
 One intuitive measure would be the range of the data, defined as the difference between the maximum and the minimum value.
+
+Eine intuitive Maßzahl wäre der Bereich der Daten, definiert als die Differenz zwischen dem maximalen und dem minimalen Wert.
 
 ```{r}
 max(bikes$cnt)
@@ -216,20 +240,21 @@ max(bikes$cnt) - min(bikes$cnt)
 range(bikes$cnt)
 ```
 
-Another measure is the inter-quartile range, which is the difference between the third and the first quartile.
+
+Eine andere Maßzahl ist der Interquartilbereich, der die Differenz zwischen dem dritten und dem ersten Quartil ist.
 
 ```{r}
 quantile(bikes$cnt, 0.75) - quantile(bikes$cnt, 0.25)
 ```
 
-As the range, the inter-quartile range is a measure of variability, however, it is much less sensitive to extreme values.
-
-The most important measure of variability and the one that will be central to our analysis is the (empirical) variance.
+Wie der Bereich ist der Interquartilbereich ein Maß für die Variabilität, jedoch ist er viel weniger empfindlich gegenüber extremen Werten.
 
 ::: {#def-empirical-variance}
-## Empirical Variance
+## Empirische Varianz
 
 For a vector of values $x = (x_1, \ldots, x_n)$ it is defined as the average (apart from a small correction in the denominator) squared deviation of the values from their mean.
+
+Für einen Vektor von Werten $x = (x_1, \ldots, x_n)$ ist sie definiert als der Durchschnitt (abgesehen von einer kleinen Korrektur im Nenner) der quadrierten Abweichungen der Werte von ihrem Mittelwert.
 
 $$
 S^2_x = \frac{(x_1 - \bar{x})^2 + \ldots + (x_n - \bar{x})^2}{n - 1} = \frac{1}{n - 1} \sum_{i = 1}^{n}(x_i - \bar{x})^2: \quad \text{variance}\\
@@ -238,21 +263,21 @@ $$
 :::
 
 ::: {#exm-empirical-variance}
-## Computing the empirical variance
+## Berechnung der empirischen Varianz
 
-Lets apply the formula from @def-empirical-variance to a very simple example with just three values.
+Lassen Sie uns die Formel aus @def-empirical-variance auf ein sehr einfaches Beispiel mit nur drei Werten anwenden.
 
 $$
 x_1 = -1, x_2 = 0, x_3 = 4
 $$
 
-First, the empirical mean of these values is
+Zuerst ist der empirische Mittelwert dieser Werte
 
 $$
 \bar{x} = \frac{-1 + 0 + 4}{3} = 1
 $$
 
-Now lets substitute these values in the definition of the empirical variance:
+Jetzt setzen wir diese Werte in die Definition der empirischen Varianz ein:
 
 $$
 \begin{aligned}
@@ -265,37 +290,37 @@ S^2_{x} & = \frac{(x_1 - \bar{x})^2 + (x_2 - \bar{x})^2 + (x_3 - \bar{x})^2 }{n 
 \end{aligned}
 $$
 
-Using R to compute the same thing:
+Vergleichen wir unser Ergebnis mit der Berechnung in R.
 
 ```{r}
-# Create a vector called x
+# Ein Vektor mit drei Werten
 x <- c(-1, 0, 4)
-# Compute the average of the values in x and store it in a variable called x_avg (look it up in the global environment)
+# Berechnen des Mittelwerts von x
 
 x_avg <- mean(x)
 
-# Manually compute the variance of x
+# Hier berechnen wir die Summe der quadrierten Abweichungen von x_avg
+
 ((-1 - x_avg)^2 + (0 - x_avg)^2 + (4 - x_avg)^2) / (length(x) - 1)
 ```
 
 ```{r}
-# More compactly
+# Oder mit der sum Funktion
 sum((x - mean(x))^2) / (length(x) - 1)
 ```
 
-There is also a special function called `var` that can compute it from a vector
+Es gibt auch eine spezielle Funktion namens `var`, die sie aus einem Vektor berechnen kann.
 
 ```{r}
 var(x)
 ```
 
-The (empirical) standard deviation is simply the square root of the (empirical) variance.
+Die (empirische) Standardabweichung ist einfach die Quadratwurzel der (empirischen) Varianz.
 
 $$
 S_x = \sqrt{S^2_x} = \sqrt{7} \approx 2.64 
 $$
 
-In R you have two options: take the square root of the result of `var` using the `sqrt` function or use `sd` (standard deviation) to compute the standard deviation directly.
 
 ```{r}
 sqrt(var(x))
@@ -304,9 +329,9 @@ sd(x)
 :::
 
 ::: callout-note
-## Interpretation of the Standard Deviation
+## Interpretation der Standardabweichung
 
-The standard deviation is a measure of the spread of the data. It is the average distance of the observations from the mean.
+Die Standardabweichung ist ein Maß für die Streuung der Daten. Es ist der durchschnittliche Abstand der Beobachtungen vom Mittelwert.
 
 ```{r}
 x1 <- c(-1, 0, 1)
@@ -327,7 +352,7 @@ sd(x)
 ```
 :::
 
-Let's compute the empirical standard deviations of `cnt` by `season`. We will use this opporuinity to introduce the `group_by` function from the `dplyr` package. This function allows us to group the data by a variable and then apply a function to each group.
+Lassen Sie uns die empirischen Standardabweichungen von `cnt` nach `season` berechnen. Wir werden diese Gelegenheit nutzen, um die Funktion `group_by` aus dem Paket `dplyr` vorzustellen. Diese Funktion ermöglicht es uns, die Daten nach einer Variablen zu gruppieren und dann eine Funktion auf jede Gruppe anzuwenden.
 
 ```{r}
 bikes %>%
@@ -339,26 +364,26 @@ bikes %>%
 ```
 
 ::: {#exr-empirical-moments}
-## Empirical Moments (Mean and Variance)
+## Empirische Momente (Mittelwert, Varianz und Standardabweichung)
 
-1.  Compute the mean and the variance of the `temp_c` variable in the `bikes` dataset. How do you interpret these values?
+1. Berechnen Sie den Mittelwert und die Varianz der Variablen `temp_c` im Datensatz `bikes`. Wie interpretieren Sie diese Werte?
 
 ```{r}
-# Write your code here
+# Schreiben Sie Ihren Code hier
 
 ```
 
 2.  Use the `summarize` function from the `dplyr` (already loaded) package to compute the mean and the variance of the `temp_c` variable.
 
 ```{r}
-# Write your code here
+# Schreiben Sie Ihren Code hier
 
 ```
 
 3.  Run the same calculations as before, but this time group the dataset by the `ethnicity` variable. This will give you the mean and the variance of the annual earnings for every ethnic group in the data set. Use the `group_by` function.
 
 ```{r}
-# Write your code here
+# Schreiben Sie Ihren Code hier
 
 ```
 :::
