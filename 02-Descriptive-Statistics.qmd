@@ -222,8 +222,10 @@ For a vector of values $x = (x_1, \ldots, x_n)$ it is defined as the average (ap
 Für einen Vektor von Werten $x = (x_1, \ldots, x_n)$ ist sie definiert als der Durchschnitt (abgesehen von einer kleinen Korrektur im Nenner) der quadrierten Abweichungen der Werte von ihrem Mittelwert.
 
 $$
+\begin{align*}
 S^2_x = \frac{(x_1 - \bar{x})^2 + \ldots + (x_n - \bar{x})^2}{n - 1} = \frac{1}{n - 1} \sum_{i = 1}^{n}(x_i - \bar{x})^2: \quad \text{Varianz}\\
 S_x = \sqrt{S^2_x} \quad \text{Standardabweichung}
+\end{align*}
 $$
 :::
 
