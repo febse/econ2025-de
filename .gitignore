@@ -29,3 +29,5 @@ _output/
 .Rmd.cache/
 .Rmd.knit.md
 .Rmd.knit.md.bak
+
+/.quarto/
