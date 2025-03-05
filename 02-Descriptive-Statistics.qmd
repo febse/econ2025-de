@@ -198,7 +198,7 @@ Berechnen Sie das Minimum, Maximum und die Quartile der Variablen `temp_c`. Wie 
 ```
 :::
 
-### Variabilität
+### Streuung (Variabilität)
 
 The next important feature of the data is its variability. It answers the following question: how different were the hours in the data with respect to the number of rented bikes. There are numerous ways to measure variability. To illustrate this, let us consider look at the boxplot of the `cnt` variable by `season`.
 
@@ -233,7 +233,7 @@ quantile(bikes$cnt, 0.75) - quantile(bikes$cnt, 0.25)
 Wie der Bereich ist der Interquartilbereich ein Maß für die Variabilität, jedoch ist er viel weniger empfindlich gegenüber extremen Werten.
 
 ::: {#def-empirical-variance}
-## Empirische Varianz
+## Die Empirische Varianz
 
 For a vector of values $x = (x_1, \ldots, x_n)$ it is defined as the average (apart from a small correction in the denominator) squared deviation of the values from their mean.
 
