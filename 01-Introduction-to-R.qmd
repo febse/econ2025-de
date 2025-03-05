@@ -1,11 +1,10 @@
-# Introduction to R
+# Einführung in R
 
 In den ersten Klassen werden wir die grundlegende Struktur eines Quarto Dokuments und wie wir `R` Code und Text mischen können, um Dokumente zu erstellen.
 
-Ein Quarto Dokument ist eine reine Textdatei, die Sie in jedem Texteditor (z.B. Notepad, Emacs, Kate, etc.) öffnen können. Es besteht aus zwei Teilen: dem Header am Anfang der Datei. Der Header beginnt mit drei Bindestrichen in einer separaten Zeile und endet mit drei Bindestrichen in einer separaten Zeile. Zwischen den Bindestrichen können Sie verschiedene Optionen in einem `yml`-Format angeben, wie z.B. den Autor und den Titel des Dokuments, aber diese werden für unseren Kurs im Allgemeinen irrelevant sein und wir werden sie ignorieren. R-Studio hat zwei Bearbeitungsmöglichkeiten für Quarto Dokumente: `Source` und `Visual`. Nach dem Öffnen eines Quarto Dokuments finden Sie zwei Schaltflächen (`Source` und `Visual`) direkt unter dem Dateinamen (unter dem Speichern-Symbol). Klicken Sie auf die Schaltfläche `Visual`, um sie zu aktivieren (falls nicht schon aktiv). Dieses zeigt Ihnen 
+Ein Quarto Dokument ist eine reine Textdatei, die Sie in jedem Texteditor (z.B. Notepad, Emacs, Kate, etc.) öffnen können. Es besteht aus zwei Teilen: dem Header am Anfang der Datei. Der Header beginnt mit drei Bindestrichen in einer separaten Zeile und endet mit drei Bindestrichen in einer separaten Zeile. Zwischen den Bindestrichen können Sie verschiedene Optionen in einem `yml`-Format angeben, wie z.B. den Autor und den Titel des Dokuments, aber diese werden für unseren Kurs im Allgemeinen irrelevant sein und wir werden sie ignorieren. R-Studio hat zwei Bearbeitungsmöglichkeiten für Quarto Dokumente: `Source` und `Visual`. Nach dem Öffnen eines Quarto Dokuments finden Sie zwei Schaltflächen (`Source` und `Visual`) direkt unter dem Dateinamen (unter dem Speichern-Symbol). Klicken Sie auf die Schaltfläche `Visual`, um sie zu aktivieren (falls nicht schon aktiv). Dieses zeigt Ihnen
 
 Im Hauptteil des Dokuments schreiben wir Code in Codeblöcken (code chunks), die mit drei Backticks anfangen und mit drei Backticks enden. Nach der ersten Sequenz von Backticks gibt es einen Sprachidentifikator, der in unserem Fall immer `r` sein wird.
-
 
 ```{r}
 if (!requireNamespace("tidyverse", quietly = TRUE)) {
@@ -29,8 +28,6 @@ Häufig verwendete Tastenkombinationen in R Studio:
 You can find more shortcuts and a concise overview of the elements of R Studio in the [R Studio Cheatsheet](https://posit.co/wp-content/uploads/2022/10/rstudio-ide-1.pdf).
 
 Mehr Tastenkombinationen finden Sie unter `Help` -\> `Keyboard Shortcuts Help`. Eine Übersicht über R Studio finden Sie im [R Studio Cheatsheet](https://posit.co/wp-content/uploads/2022/10/rstudio-ide-1.pdf).
-
-
 :::
 
 ## Arithmetische Operationen
@@ -51,7 +48,6 @@ Sehr häufig möchten wir einen Wert im Speicher des Computers speichern, damit 
 ## Assignment Operator Shortcut
 
 Sie können den gesamten `<-`-Operator einfügen, indem Sie `Alt -` (Minus) drücken. Es ist wichtig zu beachten, dass `<-` und `< -` (mit Leerzeichen zwischen den Zeichen) völlig unterschiedliche Dinge tun (siehe unten).
-
 :::
 
 Führen Sie den folgenden Codeblock aus und schauen Sie sich die globale Umgebung (rechte Seite von R Studio) an, um zu sehen, dass der Name `y` in der Liste der Objekte erscheint.
@@ -65,12 +61,10 @@ y - 40
 y < - 20
 ```
 
-
 ::: {#exr-r-arithmetc}
 ## Zuweisung und arithmetische Operationen
 
-Create two new variables called `x1` and `x2` and assign them the values 3 and 4, respectively. Then create a new variable called `y` and assign it the value of the sum of `x1` and `x2`. Print the value of `y` to the console either by placing the variable name in the last line of the code chunk or by using the `print` function.
-Erstellen Sie zwei neue Variablen namens `x1` und `x2` und weisen Sie ihnen die Werte 3 und 4 zu. Erstellen Sie dann eine neue Variable namens `x12` und weisen Sie ihr den Wert der Summe von `x1` und `x2` zu. Drucken Sie den Wert von `x12` in die Konsole, indem Sie den Variablennamen in der letzten Zeile des Codeblocks platzieren oder die `print`-Funktion verwenden.
+Create two new variables called `x1` and `x2` and assign them the values 3 and 4, respectively. Then create a new variable called `y` and assign it the value of the sum of `x1` and `x2`. Print the value of `y` to the console either by placing the variable name in the last line of the code chunk or by using the `print` function. Erstellen Sie zwei neue Variablen namens `x1` und `x2` und weisen Sie ihnen die Werte 3 und 4 zu. Erstellen Sie dann eine neue Variable namens `x12` und weisen Sie ihr den Wert der Summe von `x1` und `x2` zu. Drucken Sie den Wert von `x12` in die Konsole, indem Sie den Variablennamen in der letzten Zeile des Codeblocks platzieren oder die `print`-Funktion verwenden.
 :::
 
 ```{r}
@@ -140,14 +134,13 @@ z <- c("Alpha", "Bravo", "Charlie", "Delta", "Echo")
 
 R is a case-sensitive language. This means that `Hello` and `hello` are two completely different strings. This also applies to function names. For example, `mean` and `Mean` are two different functions in R. Uncomment (remove the \# character from the beginning of the second line) and run the following code chunk to see the error message that R will produce.
 
-R unterscheidet zwischen Groß- und Kleinschreibung. Das bedeutet, dass `Hello` und `hello` zwei völlig verschiedene Zeichenfolgen sind. Dies gilt auch für Funktions-und Variablennamen. Zum Beispiel sind `mean` und `Mean` (exisitert nicht) zwei verschiedene Objekte in R. Entfernen Sie das `#` Zeichen und führen Sie den folgenden Codeblock aus, um die Fehlermeldung zu sehen, die R produziert. 
+R unterscheidet zwischen Groß- und Kleinschreibung. Das bedeutet, dass `Hello` und `hello` zwei völlig verschiedene Zeichenfolgen sind. Dies gilt auch für Funktions-und Variablennamen. Zum Beispiel sind `mean` und `Mean` (exisitert nicht) zwei verschiedene Objekte in R. Entfernen Sie das `#` Zeichen und führen Sie den folgenden Codeblock aus, um die Fehlermeldung zu sehen, die R produziert.
 :::
 
 ```{r}
 mean(x)
 # Mean(x)
 ```
-
 
 ## Recycling
 
@@ -288,14 +281,11 @@ incomes[is_low_income]
 length(incomes[is_low_income])
 ```
 
-
 ## Pipes
 
-Im nächsten Abschnitt werden wir Datenmanagement in R diskutieren und dort werden wir sehr häufig die sogenannten *Pipes* verwenden. Pipes sind ein Konzept, das in R sehr häufig verwendet wird, um den Code lesbarer und einfacher zu schreiben. Wir werden das Konzept anhand eines Beispiels einführen.
-Mehr Informationen zu Pipes finden Sie [hier](https://r4ds.had.co.nz/pipes.html).
+Im nächsten Abschnitt werden wir Datenmanagement in R diskutieren und dort werden wir sehr häufig die sogenannten *Pipes* verwenden. Pipes sind ein Konzept, das in R sehr häufig verwendet wird, um den Code lesbarer und einfacher zu schreiben. Wir werden das Konzept anhand eines Beispiels einführen. Mehr Informationen zu Pipes finden Sie [hier](https://r4ds.had.co.nz/pipes.html).
 
 Sie können den `%>%` Operator als "und dann" lesen. Zum Beispiel, der folgende Code berechnet den Durchschnitt der Werte in `x` auf zwei verschiedene Arten. Die erste Methode ist die traditionelle Methode, die andere Methode verwendet Pipes.
-
 
 ```{r}
 x <- c(-1, 1, 1)
@@ -307,12 +297,10 @@ mean(x)
 x %>% mean()
 ```
 
-
 Dieses macht den Code lesbarer und einfacher zu verstehen. Das ist insbesondere dann nützlich, wenn Sie viele Funktionen hintereinander aufrufen. Sie können die Pipe verwenden, um den Output einer Funktion als Input für die nächste Funktion zu verwenden.
 
 ::: callout-info
 ## Shortcut für Pipes
-
 
 Sie können die Tastenkombination `Ctrl + Shift + M` verwenden, um den Pipe-Operator in R Studio einzufügen.
 :::

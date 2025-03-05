@@ -15,8 +15,7 @@ library(readxl)
 
 In a limited number of cases we need to construct tables by hand. You can find out more about `tibble` [here](https://tibble.tidyverse.org/articles/tibble.html).
 
-In einigen Anwendungen ist es nützlich, Tabellen manuell zu erstellen. Sie können mehr über
-`tibble` [hier](https://tibble.tidyverse.org/articles/tibble.html) erfahren.
+In einigen Anwendungen ist es nützlich, Tabellen manuell zu erstellen. Sie können mehr über `tibble` [hier](https://tibble.tidyverse.org/articles/tibble.html) erfahren.
 
 ```{r}
 # Wir erstellen eine Tabelle mit den Daten von fünf Personen
@@ -31,7 +30,6 @@ dt <- tibble(
 dt
 ```
 
-
 In den meisten Fällen werden wir externe Datenquellen wie Textdateien im CSV-Format verwenden. Für diesen Kurs werden die Daten immer in einem Starter-Code-Schnipsel importiert.
 
 The dataset `bikes` contains hourly usage data of shared bikes in London between 2015 and 2017.
@@ -44,11 +42,10 @@ Der Datensatz `bikes` enthält stündliche Nutzungsdaten von Fahrrädern in Lond
 -   `t2` - Temperatur in Grad Fahrenheit (gefühlte Temperatur)
 -   `hum` - Luftfeuchtigkeit in Prozent
 -   `wind_speed` - Windgeschwindigkeit in Meilen pro Stunde
--   `weather_code` - Wettercode (kategorische Variable)
+-   `weather_code` - Wettercode (kategoriale Variable)
 -   `is_holiday` - Indikator für Feiertage
 -   `is_weekend` - Indikator für Wochenenden
 -   `season` - Jahreszeiten: 0-Frühling; 1-Sommer; 2-Herbst; 3-Winter
-
 
 ```{r}
 # Download and import the raw data from a CSV file
@@ -70,7 +67,7 @@ Before we start summarizing the data, we will convert some of the variables to m
 Als Übung werden wir die zwei Temperaturvariablen `t1` und `t2` von Fahrenheit in Celsius umwandeln. Die Formel zur Umrechnung von Fahrenheit in Celsius lautet:
 
 $$
-\text{Degree Celsius} = \frac{\text{Degree Fahrenheit} - 32}{1.8}
+\text{Grad Celsius} = \frac{\text{Grad Fahrenheit} - 32}{1.8}
 $$
 
 ```{r}
@@ -110,9 +107,9 @@ The first step in any data analysis is to gain an initial understanding of the c
 
 It is especially important to detect these problems in the early stages of the analysis.
 
-Der esrte Schritt in jeder Datenanalyse besteht darin, ein erstes Verständnis des Kontexts der Daten und der Verteilungen der interessierenden Variablen zu gewinnen. In diesem Kurs werden wir uns hauptsächlich auf zwei Merkmale der Variaben konzentrieren: ihre Lokation und ihre Variabilität (wie unterschiedlich sind die Beobachtungen untereinander). Darüber hinaus ist ein erster Screening hilfreich, um potenzielle Probleme in den Daten zu identifizieren:
+Der esrte Schritt in jeder Datenanalyse besteht darin, ein erstes Verständnis des Kontexts der Daten und der Verteilungen der interessierenden Variablen zu gewinnen. In diesem Kurs werden wir uns hauptsächlich auf zwei Merkmale der Variaben konzentrieren: ihre Lage und ihre Variabilität (wie unterschiedlich sind die Beobachtungen untereinander). Darüber hinaus ist ein erster Screening hilfreich, um potenzielle Probleme in den Daten zu identifizieren:
 
-### Lokation (Mittelpunkt)
+### Lage
 
 The most important measure of location for us will be the empirical mean of a variable (arithmetic average). Let $i$ index the observation in our data set from the first ($i = 1$) to the last $i = n$. In our case $n = 1816$: the number of all interviewed customers. We can represent the values of some (numeric) characteristic (e.g., the persons' weight) as a vector of values $x = (x_1, \ldots, x_n)$. In this notation $x_1$ is the weight of the first customer in the data set ($x_1 = 210$ pounds). The arithmetic average is defined as the sum of all values divided by the number of observations:
 
@@ -122,21 +119,20 @@ $$
 \bar{x} = \frac{1}{n}(x_1 + x_2 + \ldots + x_n) = \frac{1}{n}\sum_{i = 1}^{n} x_i
 $$
 
-
 Lassen Sie uns nun den arithmetischen Durchschnitt von `cnt` berechnent.
 
 ```{r}
 mean(bikes$cnt)
 ```
 
-Eine andere Maßzahl für die Lokation ist der (empirische) Median. Sie können ihn mit der Funktion `median` berechnen.
+Eine andere Maßzahl für die Lage ist der (empirische) Median. Sie können ihn mit der Funktion `median` berechnen.
 
 ```{r}
 median(bikes$cnt)
 ```
 
 ::: {#exr-location}
-## Lokation (Mittelwert und Median)
+## Lage (Mittelwert und Median)
 
 Berechnen Sie den arithmetischen Durchschnitt und den Median der Temperatur (`temp_c`). Wie interpretieren Sie diese Werte?
 
@@ -146,8 +142,7 @@ Berechnen Sie den arithmetischen Durchschnitt und den Median der Temperatur (`te
 ```
 :::
 
-
-Andere Maßzahlen für die Lokation sind der Modus (der häufigste Wert) und die Quantile. Im Allgemeinen macht der Modus nur für kategoriale Variablen Sinn.
+Andere Maßzahlen für die Lage sind der Modus (der häufigste Wert) und die Quantile. Im Allgemeinen macht der Modus nur für kategoriale Variablen Sinn.
 
 ```{r}
 min(bikes$cnt)
@@ -159,7 +154,7 @@ quantile(bikes$cnt, probs = c(0, 0.25, 0.5, 0.75, 1))
 
 The first quartile of `cnt` (25-th percentile and 0.25 quantile are different names for the same thing) is the number of bike rentals per hour such that about 25 percent (one quarter) of the hours had fewer rentals.
 
-Das erste Quantil von `cnt` (25-tes Perzentil und 0,25 Quantil sind unterschiedliche Namen für dasselbe) ist die Anzahl der Fahrradvermietungen pro Stunde, so dass etwa 25 Prozent (ein Viertel) der Stunden weniger Vermietungen hatten. 
+Das erste Quantil von `cnt` (25-tes Perzentil und 0,25 Quantil sind unterschiedliche Namen für dasselbe) ist die Anzahl der Fahrradvermietungen pro Stunde, so dass etwa 25 Prozent (ein Viertel) der Stunden weniger Vermietungen hatten.
 
 ```{r}
 quantile(bikes$cnt, 0.25)
@@ -189,15 +184,6 @@ mean(bikes$cnt > quantile(bikes$cnt, 0.75))
 ::: {#exr-location-quantiles}
 ## Minimum, Maximum, und Quartile
 
-Compute the minimum, maximum, and the quartiles of the `temp_c` variable. How do you interpret these values? Compute the proportion of hours with a temperature:
-
--   Below the first quartile
--   Above the median
--   Above the third quartile.
--   Between the first and the third quartile.
--   Between the median and the third quartile.
--   Between the median and the first quartile.
-
 Berechnen Sie das Minimum, Maximum und die Quartile der Variablen `temp_c`. Wie interpretieren Sie diese Werte? Berechnen Sie den Anteil der Stunden mit einer Temperatur:
 
 -   Unter dem ersten Quartil
@@ -206,9 +192,8 @@ Berechnen Sie das Minimum, Maximum und die Quartile der Variablen `temp_c`. Wie 
 -   Zwischen dem ersten und dem dritten Quartil.
 -   Zwischen dem Median und dem dritten Quartil.
 
-
 ```{r}
-# Write your code here
+# Schreiben Sie Ihren Code here
 
 ```
 :::
@@ -227,7 +212,6 @@ bikes %>%
   geom_boxplot()
 ```
 
-
 One intuitive measure would be the range of the data, defined as the difference between the maximum and the minimum value.
 
 Eine intuitive Maßzahl wäre der Bereich der Daten, definiert als die Differenz zwischen dem maximalen und dem minimalen Wert.
@@ -239,7 +223,6 @@ max(bikes$cnt) - min(bikes$cnt)
 
 range(bikes$cnt)
 ```
-
 
 Eine andere Maßzahl ist der Interquartilbereich, der die Differenz zwischen dem dritten und dem ersten Quartil ist.
 
@@ -257,8 +240,8 @@ For a vector of values $x = (x_1, \ldots, x_n)$ it is defined as the average (ap
 Für einen Vektor von Werten $x = (x_1, \ldots, x_n)$ ist sie definiert als der Durchschnitt (abgesehen von einer kleinen Korrektur im Nenner) der quadrierten Abweichungen der Werte von ihrem Mittelwert.
 
 $$
-S^2_x = \frac{(x_1 - \bar{x})^2 + \ldots + (x_n - \bar{x})^2}{n - 1} = \frac{1}{n - 1} \sum_{i = 1}^{n}(x_i - \bar{x})^2: \quad \text{variance}\\
-S_x = \sqrt{S^2_x} \quad \text{standard deviation}
+S^2_x = \frac{(x_1 - \bar{x})^2 + \ldots + (x_n - \bar{x})^2}{n - 1} = \frac{1}{n - 1} \sum_{i = 1}^{n}(x_i - \bar{x})^2: \quad \text{Varianz}\\
+S_x = \sqrt{S^2_x} \quad \text{Standardabweichung}
 $$
 :::
 
@@ -315,12 +298,11 @@ Es gibt auch eine spezielle Funktion namens `var`, die sie aus einem Vektor bere
 var(x)
 ```
 
-Die (empirische) Standardabweichung ist einfach die Quadratwurzel der (empirischen) Varianz.
+Die (empirische) Standardabweichung ist die Quadratwurzel der (empirischen) Varianz.
 
 $$
 S_x = \sqrt{S^2_x} = \sqrt{7} \approx 2.64 
 $$
-
 
 ```{r}
 sqrt(var(x))
@@ -366,7 +348,7 @@ bikes %>%
 ::: {#exr-empirical-moments}
 ## Empirische Momente (Mittelwert, Varianz und Standardabweichung)
 
-1. Berechnen Sie den Mittelwert, die Varianz und die Standardabweichung der Variablen `temp_c` im Datensatz `bikes`. Wie interpretieren Sie diese Werte?
+1.  Berechnen Sie den Mittelwert, die Varianz und die Standardabweichung der Variablen `temp_c` im Datensatz `bikes`. Wie interpretieren Sie diese Werte?
 
 ```{r}
 # Schreiben Sie Ihren Code hier
@@ -375,13 +357,12 @@ bikes %>%
 
 2.  Benutzen Sie die Funktion `summarize`, um den Mittelwert und die Varianz der Variable `temp_c` zu berechnen.
 
-
 ```{r}
 # Schreiben Sie Ihren Code hier
 
 ```
 
-3. Gruppieren Sie die Daten mit `group_by` nach der Variablen `season`. Berechnen Sie dann mit `summarize` den Mittelwert und die Standardabweichung der Variable `temp_c` für jede Jahreszeit. Wie interpretieren Sie diese Werte?
+3.  Gruppieren Sie die Daten mit `group_by` nach der Variablen `season`. Berechnen Sie dann mit `summarize` den Mittelwert und die Standardabweichung der Variable `temp_c` für jede Jahreszeit. Wie interpretieren Sie diese Werte?
 
 ```{r}
 # Schreiben Sie Ihren Code hier
@@ -409,7 +390,6 @@ Der Mittelwert, der Median und die Varianz sind nützlich für numerische Variab
 ```{r}
 table(bikes$season)
 ```
-
 
 ::: {#exr-descriptive-statistics}
 ## Einkaufszentrumkunden
@@ -444,16 +424,15 @@ $$
 
 ```
 
-
-- Berechnen Sie die Quartile der Variablen `bmi`. Wie interpretieren Sie diese Werte?
+-   Berechnen Sie die Quartile der Variablen `bmi`. Wie interpretieren Sie diese Werte?
 
 ```{r}
 # Schreiben Sie Ihren Code hier
 
 ```
 
--  Visualize the distribution of the `bmi` variable by sex (use the `male`). What can you say about the distributions of the BMI between men and women?
--  Visualisieren Sie die Verteilung der Variablen `bmi` nach Geschlecht (verwenden Sie `male`) mittels Boxplots. Was können Sie über die Verteilungen des BMI zwischen Männern und Frauen sagen?
+-   Visualize the distribution of the `bmi` variable by sex (use the `male`). What can you say about the distributions of the BMI between men and women?
+-   Visualisieren Sie die Verteilung der Variablen `bmi` nach Geschlecht (verwenden Sie `male`) mittels Boxplots. Was können Sie über die Verteilungen des BMI zwischen Männern und Frauen sagen?
 
 ```{r}
 # Schreiben Sie Ihren Code hier
@@ -461,8 +440,7 @@ $$
 
 ```
 
--   The reference ranges for the BMI are as follows:
-Die Referenzwerte für den BMI sind wie folgt:
+-   The reference ranges for the BMI are as follows: Die Referenzwerte für den BMI sind wie folgt:
 
 -   Unter 18,5: Untergewicht
 
