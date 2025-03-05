@@ -244,8 +244,9 @@ Verwenden Sie den Vektor `incomes` aus der vorherigen Übung. Erstellen Sie eine
 
 ```{r}
 # Schreiben Sie hier Ihren Code
+
 is_high_income <- incomes > income_avg
-sum(is_hohe_Einkommen)
+sum(is_high_income)
 mean(is_high_income)
 ```
 

@@ -366,21 +366,22 @@ bikes %>%
 ::: {#exr-empirical-moments}
 ## Empirische Momente (Mittelwert, Varianz und Standardabweichung)
 
-1. Berechnen Sie den Mittelwert und die Varianz der Variablen `temp_c` im Datensatz `bikes`. Wie interpretieren Sie diese Werte?
+1. Berechnen Sie den Mittelwert, die Varianz und die Standardabweichung der Variablen `temp_c` im Datensatz `bikes`. Wie interpretieren Sie diese Werte?
 
 ```{r}
 # Schreiben Sie Ihren Code hier
 
 ```
 
-2.  Use the `summarize` function from the `dplyr` (already loaded) package to compute the mean and the variance of the `temp_c` variable.
+2.  Benutzen Sie die Funktion `summarize`, um den Mittelwert und die Varianz der Variable `temp_c` zu berechnen.
+
 
 ```{r}
 # Schreiben Sie Ihren Code hier
 
 ```
 
-3.  Run the same calculations as before, but this time group the dataset by the `ethnicity` variable. This will give you the mean and the variance of the annual earnings for every ethnic group in the data set. Use the `group_by` function.
+3. Gruppieren Sie die Daten mit `group_by` nach der Variablen `season`. Berechnen Sie dann mit `summarize` den Mittelwert und die Standardabweichung der Variable `temp_c` für jede Jahreszeit. Wie interpretieren Sie diese Werte?
 
 ```{r}
 # Schreiben Sie Ihren Code hier
@@ -388,61 +389,32 @@ bikes %>%
 ```
 :::
 
-### Data Overview
+### Übersicht über die Daten
 
 The `skim` function from the `skimr` package provides a quick overview of the data set. It shows the number of observations, the number of variables, the names of the variables, the type of the variables, the number of missing values, the mean, the standard deviation, the minimum and maximum values, and the quartiles for the numeric variables.
+
+Die Funktion `skim` aus dem Paket `skimr` bietet einen schnellen Überblick über den Datensatz. Sie zeigt die Anzahl der Beobachtungen, die Anzahl der Variablen, die Namen der Variablen, den Typ der Variablen, die Anzahl der fehlenden Werte, den Mittelwert, die Standardabweichung, die minimalen und maximalen Werte und die Quartile für die numerischen Variablen.
 
 ```{r}
 ## Basic summaries for the whole tibble
 bikes %>% skimr::skim()
 ```
 
-### Summarizing a single categorical variable
+### Zusammenfassung einer kategorialen Variablen
 
 While the mean, median, and variance are useful for numeric variables, they are not defined for categorical variables. Instead, we can use the `table` function to count the number of observations in each category.
+
+Der Mittelwert, der Median und die Varianz sind nützlich für numerische Variablen, aber nicht für kategoriale Variablen. Für kategorialen Variablen können wir die Funktion `table` verwenden, um die Anzahl der Beobachtungen in jeder Kategorie zu zählen.
 
 ```{r}
 table(bikes$season)
 ```
 
-## Visualizations
-
-Histogram
-
-```{r}
-bikes %>%
-  ggplot(aes(x = cnt)) +
-  geom_histogram()
-```
-
-A smooth density plot is an alternative way to visualize the distribution of a variable.
-
-```{r}
-bikes %>%
-  ggplot(aes(x = cnt)) +
-  geom_density()
-```
-
-The boxplot shows the median and the 25-th and 75-th percentiles (the box). The whiskers in the plot stretch to the minimum or the maximum observed value, unless there are extreme observations that are shown as single dots.
-
-The scatterplot will be our primary tool in studying associations between variables. It represents each observation as a point in a coordinate system defined by the variables that we would like to study.
-
-```{r}
-bikes %>%
-  ggplot(aes(x = temp_c, y = cnt)) +
-  geom_point(position = "jitter", alpha = 0.2) +
-  labs(
-    x = "Temperature (C)",
-    y = "Number of rentals"
-  )
-```
-
-```{r}
-summary(lm(cnt ~ temp_c, data = bikes))
-```
 
 ::: {#exr-descriptive-statistics}
-The `earnings` dataset contains the result from a survey of mall customers. The dataset contains the following variables:
+## Einkaufszentrumkunden
+
+Der Datensatz `earnings` enthält die Ergebnisse einer Umfrage von Einkaufszentrumkunden. Der Datensatz enthält die folgenden Variablen:
 
 -   `height` - the height of the customer in inches
 -   `weight` - the weight of the customer in pounds
@@ -461,47 +433,58 @@ earnings <- read_csv("https://github.com/febse/data/raw/refs/heads/main/econ/ear
 earnings %>% head()
 ```
 
--   Create a new variable `bmi` (body mass index) in the `earnings` data set. The BMI is defined as the weight in kilograms divided by the square of the height in meters. The height in meters is the height in centimeters divided by 100. To facilitate the computation, convert the height from inches to centimeters and the weight from pounds to kilograms and store these values in new variables `height_cm` and `weight_kg`.
+-   Erstellen Sie eine neue Variable `bmi` (Body-Mass-Index) im Datensatz `earnings`. Der BMI wird definiert als das Gewicht in Kilogramm geteilt durch das Quadrat der Höhe in Metern. Die Höhe in Metern ist die Höhe in Zentimetern geteilt durch 100. Um die Berechnung zu erleichtern, konvertieren Sie die Höhe von Zoll in Zentimeter und das Gewicht von Pfund in Kilogramm und speichern Sie diese Werte in neuen Variablen `height_cm` und `weight_kg`.
 
 $$
 \text{BMI} = \frac{\text{weight (kg)}}{(\text{height (cm)} / 100)^2}
 $$
 
--   Compute the quartiles of the `bmi` variable. How do you interpret these values?
-
 ```{r}
-# Write your code here
+# Schreiben Sie Ihren Code hier
 
 ```
 
--   Visualize the distribution of the `bmi` variable by sex (use the `male`). What can you say about the distributions of the BMI between men and women?
+
+- Berechnen Sie die Quartile der Variablen `bmi`. Wie interpretieren Sie diese Werte?
 
 ```{r}
-# Write your code here
+# Schreiben Sie Ihren Code hier
+
+```
+
+-  Visualize the distribution of the `bmi` variable by sex (use the `male`). What can you say about the distributions of the BMI between men and women?
+-  Visualisieren Sie die Verteilung der Variablen `bmi` nach Geschlecht (verwenden Sie `male`) mittels Boxplots. Was können Sie über die Verteilungen des BMI zwischen Männern und Frauen sagen?
+
+```{r}
+# Schreiben Sie Ihren Code hier
+
 
 ```
 
 -   The reference ranges for the BMI are as follows:
+Die Referenzwerte für den BMI sind wie folgt:
 
--   Under 18,5: Underweight
+-   Unter 18,5: Untergewicht
 
--   18,5 - 24,9: Normal
+-   18,5 - 24,9: Normalgewicht
 
--   25 - 29,9: Overweight
+-   25 - 29,9: Übergewicht
 
--   30 oder mehr: Obese
+-   30 oder mehr: Adipositas
 
-Create two new variables `is_underweight`, `is_normal` in the dataset. *Hint*: Use the `mutate` function and the `<`, `<=`, `>`, `>=` operators. You can join multiple conditions using the `&` (logical and) operator. Don't forget to uncomment the code first (Ctrl+Shift+C). How many customers are underweight and how many have a normal weight? Use the `summarize` function to compute the number of customers in each category.
+Create two new variables `is_underweight`, `is_normalweight` in the dataset. *Hint*: Use the `mutate` function and the `<`, `<=`, `>`, `>=` operators. You can join multiple conditions using the `&` (logical and) operator. Don't forget to uncomment the code first (Ctrl+Shift+C). How many customers are underweight and how many have a normal weight? Use the `summarize` function to compute the number of customers in each category.
+
+Erstellen Sie zwei neue Variablen `is_underweight`, `is_normalweight` im Datensatz. *Hinweis*: Verwenden Sie die Funktion `mutate` und die `<`, `<=`, `>`, `>=` Operatoren. Sie können mehrere Bedingungen mit dem `&` (logisches und) Operator verknüpfen. Vergessen Sie nicht, den Code zuerst zu entkommentieren (Strg+Umschalt+C). Wie viele Kunden sind untergewichtig und wie viele haben ein normales Gewicht? Verwenden Sie die Funktion `summarize`, um die Anzahl der Kunden in jeder Kategorie zu berechnen.
 
 ```{r}
-# Write your code here
+# Schreiben Sie Ihren Code hier
 
 ```
 
--   Group the data by `male` and compute the number of customers in each group, as well as the number of underweight and normal weight customers in each group. Additionally, compute the share of underweight and normal weight customers in each group. *Hint*: Use the `group_by` function and the `summarize` function. Don't forget to uncommend the code first (Ctrl+Shift+C). The `n()` function can be used to compute the number of observations in each group.
+-   Gruppieren Sie die Daten nach Geschlecht (`male`) und berechnen Sie die Anzahl der Kunden in jeder Gruppe sowie die Anzahl der untergewichtigen und normalgewichtigen Kunden in jeder Gruppe. Berechnen Sie außerdem den Anteil der untergewichtigen und normalgewichtigen Kunden in jeder Gruppe. *Hinweis*: Verwenden Sie die Funktion `group_by` und die Funktion `summarize`. Vergessen Sie nicht, den Code zuerst zu entkommentieren (Strg+Umschalt+C). Die Funktion `n()` kann verwendet werden, um die Anzahl der Beobachtungen in jeder Gruppe zu berechnen.
 
 ```{r}
-# Write your code here
+# Schreiben Sie Ihren Code hier
 
 ```
 :::
