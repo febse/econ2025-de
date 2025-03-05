@@ -97,21 +97,11 @@ Create a new column in the `bikes` dataset called `temp_felt_c` that contains th
 
 ## Datenüberblick
 
-The first step in any data analysis is to gain an initial understanding of the context of the data and the distributions of the variables of interest. In this course our main focus will be on two features of the variables: their location and their variability (how different are the observations between each other). In addition, an initial screening of is helpful to identify potential problems in the data:
-
--   Extremely unusual values (outliers)
--   Missing values
--   Logical inconsistencies in the data
-
-It is especially important to detect these problems in the early stages of the analysis.
-
 Der esrte Schritt in jeder Datenanalyse besteht darin, ein erstes Verständnis des Kontexts der Daten und der Verteilungen der interessierenden Variablen zu gewinnen. In diesem Kurs werden wir uns hauptsächlich auf zwei Merkmale der Variaben konzentrieren: ihre Lage und ihre Variabilität (wie unterschiedlich sind die Beobachtungen untereinander). Darüber hinaus ist ein erster Screening hilfreich, um potenzielle Probleme in den Daten zu identifizieren:
 
 ### Lage
 
-The most important measure of location for us will be the empirical mean of a variable (arithmetic average). Let $i$ index the observation in our data set from the first ($i = 1$) to the last $i = n$. In our case $n = 1816$: the number of all interviewed customers. We can represent the values of some (numeric) characteristic (e.g., the persons' weight) as a vector of values $x = (x_1, \ldots, x_n)$. In this notation $x_1$ is the weight of the first customer in the data set ($x_1 = 210$ pounds). The arithmetic average is defined as the sum of all values divided by the number of observations:
-
-Die wichtigste Maßzahl für die Lokation wird für uns der empirische Mittelwert einer Variablen (arithmetisches Mittel) sein. Lassen Sie $i$ die Beobachtung in unserem Datensatz vom ersten ($i = 1$) bis zum letzten $i = n$ indizieren. In unserem Fall $n = 1816$: die Anzahl aller befragten Kunden. Wir können die Werte einer (numerischen) Eigenschaft (z.B. das Gewicht der Personen) als Vektor von Werten $x = (x_1, \ldots, x_n)$ darstellen. In dieser Notation ist $x_1$ das Gewicht des ersten Kunden im Datensatz ($x_1 = 210$ Pfund). Der arithmetische Durchschnitt ist definiert als die Summe aller Werte geteilt durch die Anzahl der Beobachtungen:
+Die wichtigste Maßzahl für die Lage ist für uns der empirische Mittelwert einer Variablen (arithmetisches Mittel). Lassen Sie $i$ die Beobachtung in unserem Datensatz vom ersten ($i = 1$) bis zum letzten $i = n$ indizieren. In unserem Fall $n = 1816$: die Anzahl aller befragten Kunden. Wir können die Werte einer (numerischen) Eigenschaft (z.B. das Gewicht der Personen) als Vektor von Werten $x = (x_1, \ldots, x_n)$ darstellen. In dieser Notation ist $x_1$ das Gewicht des ersten Kunden im Datensatz ($x_1 = 210$ Pfund). Der arithmetische Durchschnitt ist definiert als die Summe aller Werte geteilt durch die Anzahl der Beobachtungen:
 
 $$
 \bar{x} = \frac{1}{n}(x_1 + x_2 + \ldots + x_n) = \frac{1}{n}\sum_{i = 1}^{n} x_i
@@ -198,10 +188,6 @@ Berechnen Sie das Minimum, Maximum und die Quartile der Variablen `temp_c`. Wie 
 
 ### Streuung (Variabilität)
 
-The next important feature of the data is its variability. It answers the following question: how different were the hours in the data with respect to the number of rented bikes. There are numerous ways to measure variability. To illustrate this, let us consider look at the boxplot of the `cnt` variable by `season`.
-
-A boxplot is a graphical representation of the distribution of the data that uses the quartiles to show the location and the spread of the data. The boxplot shows the median (the second quartile), the first and the third quartile (the 25-th and the 75-th percentile), and the whiskers that extend to the most extreme data points that are not considered outliers. Outliers are shown as individual points.
-
 Der nächste wichtige Aspekt der Daten ist ihre Variabilität. Es beantwortet die Frage: Wie unterschiedlich waren die Stunden in den Daten hinsichtlich der Anzahl der vermieteten Fahrräder. Es gibt zahlreiche Möglichkeiten, die Variabilität zu messen. Um dies zu veranschaulichen, betrachten wir den Boxplot der Variablen `cnt` nach `season`.
 
 ```{r}
@@ -209,8 +195,6 @@ bikes %>%
   ggplot(aes(y = factor(season), x = cnt)) +
   geom_boxplot()
 ```
-
-One intuitive measure would be the range of the data, defined as the difference between the maximum and the minimum value.
 
 Eine intuitive Maßzahl wäre der Bereich der Daten, definiert als die Differenz zwischen dem maximalen und dem minimalen Wert.
 
@@ -370,8 +354,6 @@ bikes %>%
 
 ### Übersicht über die Daten
 
-The `skim` function from the `skimr` package provides a quick overview of the data set. It shows the number of observations, the number of variables, the names of the variables, the type of the variables, the number of missing values, the mean, the standard deviation, the minimum and maximum values, and the quartiles for the numeric variables.
-
 Die Funktion `skim` aus dem Paket `skimr` bietet einen schnellen Überblick über den Datensatz. Sie zeigt die Anzahl der Beobachtungen, die Anzahl der Variablen, die Namen der Variablen, den Typ der Variablen, die Anzahl der fehlenden Werte, den Mittelwert, die Standardabweichung, die minimalen und maximalen Werte und die Quartile für die numerischen Variablen.
 
 ```{r}
@@ -380,8 +362,6 @@ bikes %>% skimr::skim()
 ```
 
 ### Zusammenfassung einer kategorialen Variablen
-
-While the mean, median, and variance are useful for numeric variables, they are not defined for categorical variables. Instead, we can use the `table` function to count the number of observations in each category.
 
 Der Mittelwert, der Median und die Varianz sind nützlich für numerische Variablen, aber nicht für kategoriale Variablen. Für kategorialen Variablen können wir die Funktion `table` verwenden, um die Anzahl der Beobachtungen in jeder Kategorie zu zählen.
 
