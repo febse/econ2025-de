@@ -60,8 +60,6 @@ bikes %>% head()
 
 ## Neue Variablen erstellen
 
-Before we start summarizing the data, we will convert some of the variables to more familiar units: temperature from Fahrenheit to Celsius, wind speed from miles per hour h to m/h.
-
 Als Übung werden wir die zwei Temperaturvariablen `t1` und `t2` von Fahrenheit in Celsius umwandeln. Die Formel zur Umrechnung von Fahrenheit in Celsius lautet:
 
 $$
@@ -89,6 +87,8 @@ bikes <- bikes %>%
 
 Create a new column in the `bikes` dataset called `temp_felt_c` that contains the feels like temperature in Celsius. Also create a new column called `wind_speed_kmh` that contains the wind speed in kilometers per hour. **Hint**: Use the `mutate` function and assign the result back to the `bikes` object.
 
+Erstellen Sie zwei neue Variablen in dem Datensatz `bikes`, die die gefühlte Temperatur in Grad Celsius und die Windgeschwindigkeit in km/h enthalten. Nennen Sie diese Variablen `temp_felt_c` und `wind_speed_kmh`. 
+
 ```{r}
 # Write your code here
 
@@ -97,7 +97,7 @@ Create a new column in the `bikes` dataset called `temp_felt_c` that contains th
 
 ## Datenüberblick
 
-Der esrte Schritt in jeder Datenanalyse besteht darin, ein erstes Verständnis des Kontexts der Daten und der Verteilungen der interessierenden Variablen zu gewinnen. In diesem Kurs werden wir uns hauptsächlich auf zwei Merkmale der Variaben konzentrieren: ihre Lage und ihre Variabilität (wie unterschiedlich sind die Beobachtungen untereinander). Darüber hinaus ist ein erster Screening hilfreich, um potenzielle Probleme in den Daten zu identifizieren:
+Der erste Schritt in jeder Datenanalyse besteht darin, ein erstes Verständnis des Kontexts der Daten und der Verteilungen der interessierenden Variablen zu gewinnen. In diesem Kurs werden wir uns hauptsächlich auf zwei Merkmale der Variablen konzentrieren: ihre Lage und ihre Variabilität (wie unterschiedlich sind die Beobachtungen untereinander). Darüber hinaus ist ein erster Screening hilfreich, um potenzielle Probleme in den Daten zu identifizieren:
 
 ### Lage
 
@@ -212,7 +212,7 @@ Eine andere Maßzahl ist der Interquartilbereich, der die Differenz zwischen dem
 quantile(bikes$cnt, 0.75) - quantile(bikes$cnt, 0.25)
 ```
 
-Wie der Bereich ist der Interquartilbereich ein Maß für die Variabilität, jedoch ist er viel weniger empfindlich gegenüber extremen Werten.
+Wie der Bereich ist der Interquartilsabstand ein Maß für die Variabilität, jedoch ist er viel weniger empfindlich gegenüber extremen Werten.
 
 ::: {#def-empirical-variance}
 ## Die Empirische Varianz
