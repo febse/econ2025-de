@@ -120,7 +120,7 @@ median(bikes$cnt)
 ```
 
 ::: {#exr-location}
-## Lage (Mittelwert und Median)
+## Mittelwert und Median
 
 Berechnen Sie den arithmetischen Durchschnitt und den Median der Temperatur (`temp_c`). Wie interpretieren Sie diese Werte?
 
