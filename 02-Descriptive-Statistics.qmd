@@ -13,8 +13,6 @@ library(tidyverse)
 library(readxl)
 ```
 
-In a limited number of cases we need to construct tables by hand. You can find out more about `tibble` [here](https://tibble.tidyverse.org/articles/tibble.html).
-
 In einigen Anwendungen ist es nützlich, Tabellen manuell zu erstellen. Sie können mehr über `tibble` [hier](https://tibble.tidyverse.org/articles/tibble.html) erfahren.
 
 ```{r}
