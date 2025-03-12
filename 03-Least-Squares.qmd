@@ -1,0 +1,177 @@
+# Least Squares
+
+Variablenbeschreibung:
+
+-   `Day` (numeric): Tag
+-   `Invoices` (numeric): Anzahl von Rechnungen
+-   `Time` (numeric): Bearbeitungszeit in Stunden
+
+```{r setup, include=FALSE}
+
+# Load the tidyverse packages
+
+if (!require("skimr")) {
+    install.packages("skimr")
+}
+
+if (!require("tidyverse")) {
+    install.packages("tidyverse")
+}
+
+if (!require("ggforce")) {
+  install.packages("ggforce")
+}
+
+if (!require("latex2exp")) {
+    install.packages("latex2exp")
+}
+
+if (!require("plotly")) {
+    install.packages("plotly")
+}
+
+library(tidyverse)
+library(latex2exp)
+library(ggforce)
+library(plotly)
+
+# Download and read the data
+dt <- read.delim("https://github.com/febse/data/raw/refs/heads/main/econ/invoices.txt")
+```
+
+Übersicht über die Daten:
+
+```{r}
+dt %>% 
+    skimr::skim()
+```
+
+Wir möchten diese Daten benutzen, um die Bearbeitungszeit für 50, 120, 201, 250 und 400 Rechnungen zu schätzen.
+
+```{r}
+#| label: fig-invoices-time
+#| fig-cap: "Bearbeitungszeit und Anzahl von Rechnungen"
+#| code-fold: true
+
+dt %>%
+  ggplot(aes(x = Invoices, y = Time)) +
+    geom_point() +
+    geom_vline(xintercept = c(50, 120, 201, 250, 400), lty = 2, alpha = 0.5) +
+    scale_x_continuous(breaks = c(50, 120, 201, 250, 400))
+```
+
+
+
+Strategie 1: Schätzen mit dem Mittelwert (diese Strategie ignoriert die Anzahl der Rechnungen)
+
+$$
+\widehat{\text{Time}}_i^{(1)} = \overline{\text{Time}}
+$$
+
+Strategy 2: Schätzen mit einer linearen Gleichung
+
+$$
+\widehat{\text{Time}}_i^{(2)} = 0.6 + 0.01 \cdot \text{Invoices}_i
+$$
+
+::: {#exr-intercept-only-equation}
+## Strategie 1
+
+Berechnen Sie die geschätzte Bearbeitungszeit für Strategien 1 und 2. Dann berechnen Sie die RSS für beide Strategien. 
+
+```{r}
+# Hint: use the mutate function
+
+dt <- dt %>%
+    mutate(
+        Time_predicted_1 = mean(Time),
+        residuals_1 = Time - Time_predicted_1
+    )
+```
+:::
+
+```{r}
+#| label: fig-residuals-strategy-1
+#| fig-cap: "Prediction and Residuals for Strategy 1"
+#| code-fold: true
+
+dt %>%
+    mutate(
+        Time_predicted = mean(Time),
+        residuals = Time - Time_predicted
+    ) %>%
+    ggplot(aes(x = Invoices, y = Time)) +
+    geom_point() +
+    geom_hline(yintercept = mean(dt$Time), lty = 1) +
+    ylim(c(0, 5)) +
+    geom_segment(
+        aes(
+            xend = Invoices,
+            yend = mean(dt$Time)
+            ), 
+            lty = 2,
+            alpha = 0.5
+        ) +
+    geom_label(aes(label = round(residuals, 2)))
+```
+
+```{r}
+#| label: fig-residuals-strategy-2
+#| fig-cap: "Prediction and Residuals for Strategy 2"
+#| code-fold: true
+
+dt %>%
+    mutate(
+        Time_predicted = 0.6 + 0.01 * Invoices,
+        residuals = Time - Time_predicted
+    ) %>%
+ggplot(aes(x = Invoices, y = Time)) +
+  geom_point() +
+  geom_abline(intercept = 0.6, slope = 0.01) +
+  ylim(c(0, 5)) +
+  geom_segment(
+    aes(
+        xend = Invoices,
+        yend = Time_predicted        
+    ),
+    alpha = 0.5,
+    lty=2
+    ) +
+  geom_label(aes(label = round(residuals, 2)))
+```
+
+
+## Die Methode der kleinsten Quadrate
+
+$$
+\test{RSS} = \sum_{i = 1}^{n} (\text{Time}_i - \widehat{\text{Time}}_i)^2
+$$
+
+$$
+\widehat{\text{Time}}_i = \hat{\beta}_0
+$$
+
+$$
+\test{RSS} = \sum_{i = 1}^{n} (\text{Time}_i - \hat{\beta}_0)^2
+$$
+
+
+```{r}
+#| label: fig-rss-beta0
+#| fig-cap: "RSS für verschiedene werte von $\hat{\beta}_0$"
+
+rss_intercept_dt <- expand_grid(
+    beta_hat_0 = seq(0, 4, length.out = 100),
+    dt
+)
+
+rss_dt <- rss_intercept_dt %>%
+  group_by(beta_hat_0) %>%
+  summarise(
+    RSS = sum((Time - beta_hat_0)^2)
+  )
+
+rss_dt %>%
+    ggplot(aes(x = beta_hat_0, y = RSS)) +
+    geom_line()
+```
