@@ -1,38 +1,33 @@
-# Least Squares
+# Kleinste Quadrate
 
 Variablenbeschreibung:
 
--   `Day` (numeric): Tag
--   `Invoices` (numeric): Anzahl von Rechnungen
--   `Time` (numeric): Bearbeitungszeit in Stunden
+- `Day` (numeric): Tag
+- `Invoices` (numeric): Anzahl von Rechnungen
+- `Time` (numeric): Bearbeitungszeit in Stunden
 
 ```{r setup, include=FALSE}
 
 # Load the tidyverse packages
 
 if (!require("skimr")) {
-    install.packages("skimr")
+    install.packages("skimr", repos = "http://cran.us.r-project.org")
 }
 
 if (!require("tidyverse")) {
-    install.packages("tidyverse")
-}
-
-if (!require("ggforce")) {
-  install.packages("ggforce")
+    install.packages("tidyverse", repos = "http://cran.us.r-project.org")
 }
 
 if (!require("latex2exp")) {
-    install.packages("latex2exp")
+    install.packages("latex2exp", repos = "http://cran.us.r-project.org")
 }
 
 if (!require("plotly")) {
-    install.packages("plotly")
+    install.packages("plotly", repos = "http://cran.us.r-project.org")
 }
 
 library(tidyverse)
 library(latex2exp)
-library(ggforce)
 library(plotly)
 
 # Download and read the data
@@ -60,8 +55,6 @@ dt %>%
     scale_x_continuous(breaks = c(50, 120, 201, 250, 400))
 ```
 
-
-
 Strategie 1: Schätzen mit dem Mittelwert (diese Strategie ignoriert die Anzahl der Rechnungen)
 
 $$
@@ -77,7 +70,7 @@ $$
 ::: {#exr-intercept-only-equation}
 ## Strategie 1
 
-Berechnen Sie die geschätzte Bearbeitungszeit für Strategien 1 und 2. Dann berechnen Sie die RSS für beide Strategien. 
+Berechnen Sie die geschätzte Bearbeitungszeit für Strategien 1 und 2. Dann berechnen Sie die RSS für beide Strategien.
 
 ```{r}
 # Hint: use the mutate function
@@ -140,11 +133,10 @@ ggplot(aes(x = Invoices, y = Time)) +
   geom_label(aes(label = round(residuals, 2)))
 ```
 
-
 ## Die Methode der kleinsten Quadrate
 
 $$
-\test{RSS} = \sum_{i = 1}^{n} (\text{Time}_i - \widehat{\text{Time}}_i)^2
+\text{RSS} = \sum_{i = 1}^{n} (\text{Time}_i - \widehat{\text{Time}}_i)^2
 $$
 
 $$
@@ -152,13 +144,12 @@ $$
 $$
 
 $$
-\test{RSS} = \sum_{i = 1}^{n} (\text{Time}_i - \hat{\beta}_0)^2
+\text{RSS} = \sum_{i = 1}^{n} (\text{Time}_i - \hat{\beta}_0)^2
 $$
-
 
 ```{r}
 #| label: fig-rss-beta0
-#| fig-cap: "RSS für verschiedene werte von $\hat{\beta}_0$"
+#| fig-cap: "RSS für verschiedene Werte von beta 0"
 
 rss_intercept_dt <- expand_grid(
     beta_hat_0 = seq(0, 4, length.out = 100),
@@ -175,3 +166,221 @@ rss_dt %>%
     ggplot(aes(x = beta_hat_0, y = RSS)) +
     geom_line()
 ```
+
+## Lineare Regression mit einer Variablen (ohne Konstante)
+
+$$
+\widehat{Time} =  \hat{\beta}_1 \cdot \text{Invoices}
+$$
+
+
+$$
+\begin{align*}
+\widehat{\text{Time}}_1 & = \hat{\beta}_1 \cdot 149 \\
+\widehat{\text{Time}}_2 & = \hat{\beta}_1 \cdot 60 \\
+\end{align*}
+$$
+
+$$
+\begin{pmatrix}
+\widehat{\text{Time}}_1 \\
+\widehat{\text{Time}}_2
+\end{pmatrix}
+= 
+\hat{\beta}_1
+\begin{pmatrix}
+\text{Invoices}_1 \\
+\text{Invoices}_2
+\end{pmatrix}
+$$
+
+$$
+\underbrace{\begin{pmatrix}
+\hat{y}_1 \\
+\hat{y}_2
+\end{pmatrix}}_{\hat{y}}
+= 
+\hat{\beta}_1
+\underbrace{\begin{pmatrix}
+x_1 \\
+x_2
+\end{pmatrix}
+}_{x}
+$$
+
+```{r}
+#| label: fig-vector-projection
+#| fig-cap: "Die Projektion von y auf x"
+#| code-fold: true
+#| warning: false
+
+X <- c(2, 3) / 4
+Y <- c(1, 0.2)
+
+Y_proj <- X %*% Y / X %*% X * X
+Y_min_Y_proj <- Y_proj - Y
+
+df <- tibble(
+  x = c(0, 0, Y[1], 0, Y[1], Y[2], Y_proj[1], Y_proj[1]),
+  y = c(0, 0, Y[2], 0, X[2], Y[2], Y_proj[2], Y_proj[2]),
+  xend = c(X[1], Y[1], Y_proj[1], Y_proj[1], NA, NA, NA, NA),
+  yend = c(X[2], Y[2], Y_proj[2], Y_proj[2], NA, NA, NA, NA),
+  color = c('A', 'B', 'C', 'D', NA, NA, NA, NA)
+)
+
+ggplot(df, aes(x = x, y = y)) +
+  geom_segment(
+    aes(
+      xend = xend, yend = yend, 
+      color = color
+      ),
+      arrow = arrow(length = unit(0.25,"cm")
+    )
+  ) + 
+  annotate(
+    geom = "text",
+    label = "x",
+    x = 0.51, y = 0.77
+  ) + 
+  annotate(
+    geom = "text",
+    label = "bx",
+    x = 0.35, y = 0.58
+  ) +
+  annotate(
+    geom = "text",
+    label = "y",
+    x = 1.02, y = 0.19
+  ) + 
+  annotate(
+    geom = "text",
+    label = "bx - y",
+    x = 0.76, y = 0.42
+  ) + 
+  labs(
+    x = "n1",
+    y = "n2"
+  ) + 
+  theme(legend.position = "none")
+```
+
+## Lineare Regression mit zwei Variablen (ohne Konstante)
+
+$$
+\widehat{\text{Time}} = \hat{\beta}_1 \text{Invoices} + \hat{\beta}_2 \text{Day}
+$$
+
+or in a more generic form
+
+$$
+\hat{y} = \hat{\beta}_1 x + \hat{\beta}_2 s
+$$
+
+
+$$
+\begin{align*}
+\hat{y}_1 & = \hat{\beta}_1 x_{1} + \hat{\beta}_2 s_{1} \\
+\hat{y}_2 & = \hat{\beta}_1 x_{2} + \hat{\beta}_2 s_{2} \\
+\vdots & \\
+\hat{y}_n & = \hat{\beta}_1 x_{n} + \hat{\beta}_2 s_{n} \\
+\end{align*}
+$$
+
+```{r}
+dt %>% head(3)
+```
+
+$$
+\begin{align*}
+\hat{y}_1 & = \hat{\beta}_1 \cdot 149 + \hat{\beta}_2 \cdot 1 \\
+\hat{y}_2 & = \hat{\beta}_1 \cdot 60 + \hat{\beta}_2 \cdot 2 \\
+\hat{y}_3 & = \hat{\beta}_1 \cdot 188 + \hat{\beta}_2 \cdot 3 \\
+\end{align*}
+$$
+
+$$
+\begin{pmatrix}
+\hat{y}_1 \\
+\hat{y}_2 \\
+\hat{y}_3
+\end{pmatrix}
+=
+\begin{pmatrix}
+149 & 1 \\
+60 & 2 \\
+188 & 3
+\end{pmatrix}
+\begin{pmatrix}
+\hat{\beta}_1 \\
+\hat{\beta}_2
+\end{pmatrix}
+$$
+
+$$
+\hat{y} = X \hat{\beta}
+$$
+
+
+$$
+\underbrace{\begin{pmatrix} -3 \\ 10 \\ 12 \end{pmatrix} }_{y}
+= \hat{\beta}_1 \underbrace{\begin{pmatrix} -10 \\ -10 \\ 20 \end{pmatrix}}_{x} + \hat{\beta}_2 \underbrace{\begin{pmatrix} -4 \\ 2 \\ 2 \end{pmatrix}}_{s}
+$$
+
+```{r}
+#| echo: false
+#| label: fig-two-vars-plane-3d
+#| fig-cap: "The target (response) vector y (in red) and the plane spanned by the predictors (in blue)"
+
+x <- seq(from=-10, to=10, by=1)
+y <- seq(from=-10, to=10, by=1)
+z1 <- x + y #For the first plane
+
+origin <- tibble(x = x, y = y, z = z1)
+# prepare all combination of x and y, and calculate z1
+xyz1 <- tidyr::crossing(x, y) %>%
+  mutate(z1 = 0-x-y)
+
+plot_ly(x = ~x, y = ~y, z = ~z1, type = "mesh3d", data = xyz1, opacity = 0.2) %>%
+  add_trace(
+    x = c(0, -3), y = c(0, 10), z = c(0, 12),
+    type = 'scatter3d', mode = 'lines',
+    line = list(color = 'red', width = 5)
+  ) %>%
+  add_trace(
+    x = c(0, -10), y = c(0, -10), z = c(0, 20),
+    type = 'scatter3d', mode = 'lines',
+    line = list(color = 'black', width = 5)
+  ) %>%
+  add_trace(
+    x = c(0, -4), y = c(0, 2), z = c(0, 2),
+    type = 'scatter3d', mode = 'lines',
+    line = list(color = 'black', width = 5)
+  ) %>%
+  add_trace(
+    x = c(-3, -9.3333), y = c(10, 3.6666), z = c(12, 5.6666),
+    type = 'scatter3d', mode = 'lines',
+    line = list(color = 'blue', width = 5)
+  ) %>%
+  layout(scene = list(
+    xaxis = list(title = "n1"),
+    yaxis = list(title = 'n2'),
+    zaxis = list(title = 'n3')
+  )) %>%
+  hide_legend()
+
+# Draw an arrow from the plane to the target vector
+
+```
+
+## Lineare Regression mit einer Variable (mit Konstante)
+
+$$
+\widehat{\text{Time}} = \hat{\beta}_0 + \hat{\beta}_1 \text{Invoices}
+$$
+
+
+Für zwei Beobachtungen ist die Residuenquadratsuamme (RSS) gleich (mit $\text{Time} = y$ und $\text{Invoices} = x$):
+
+$$
+\text{RSS}(\hat{\beta}_0, \hat{\beta}_1) = (y_1 - \hat{y}_1)^2 + (y_2 - \hat{y}_2)^2
+$$
