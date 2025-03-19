@@ -15,7 +15,7 @@ book:
     - 03-Least-Squares.qmd
     # - 04a-Discrete-Distributions.qmd
     # - 04b-Continuous-Distributions.qmd
-    # - 05-One-Way-ANOVA.qmd
+    - 05-One-Way-ANOVA.qmd
     # - 06-Simulation.qmd
     # - 07-Multiple-Regression.qmd
     # - 08-Interactions.qmd
