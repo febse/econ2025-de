@@ -13,8 +13,8 @@ book:
     - 01-Introduction-to-R.qmd
     - 02-Descriptive-Statistics.qmd
     - 03-Least-Squares.qmd
-    # - 04a-Discrete-Distributions.qmd
-    # - 04b-Continuous-Distributions.qmd
+    - 04-1-Discrete-Distributions.qmd
+    - 04-2-Continuous-Distributions.qmd
     - 05-One-Way-ANOVA.qmd
     # - 06-Simulation.qmd
     # - 07-Multiple-Regression.qmd
