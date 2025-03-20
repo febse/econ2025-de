@@ -57,7 +57,6 @@ px %>%
     )
 ```
 
-
 $$
 \sum_{x = 0}^{3}p_X(x) = 0.250 + 0.095 + 0.272 + 0.383 = 1
 $$
@@ -110,7 +109,6 @@ smpl_x %>%
 ## Zufallsstichproben von $Y$
 
 Wählen Sie 2000 Stichproben aus der Verteilung von $Y$ und visualisieren Sie die Häufigkeiten.
-
 
 ```{r}
 # Take the samples here
@@ -190,7 +188,6 @@ $$
 ## Der erwartete quadratische Verlust
 
 Berechnen Sie den erwarteten quadratischen Verlust für eine Vorhersage $\bar{x} = 1.5$.
-
 :::
 
 ::: solution
@@ -245,7 +242,6 @@ $$
 ## Variance
 
 Berechnen Sie die Varianz von $Y$.
-
 :::
 
 ::: solution
@@ -268,7 +264,6 @@ E(X + Y) & = E(X) + E(Y)
 \end{align}
 $$
 
-
 Ferner gilt, wenn $X$ und $Y$ *unkorreliert* sind, dann gilt für das Produkt der beiden Zufallsvariablen:
 
 $$
@@ -282,7 +277,6 @@ $$
 pxy %>%
   knitr::kable()
 ```
-
 
 ```{r}
 #| label: tbl-distr-dep
@@ -309,7 +303,6 @@ $$
 ```{r}
 sum(pxy$p)
 ```
-
 
 ## Die Randverteilungen {#sec-marginal-distr}
 
@@ -359,7 +352,6 @@ pxy_w <- pxy %>%
 pxy_w %>%
   knitr::kable(digits = 3)
 ```
-
 
 ## Unabhängigkeit
 
@@ -411,7 +403,6 @@ pxy_ind_w %>%
   knitr::kable(digits = 3)
 ```
 
-
 ```{r}
 pxy %>%
   ggplot(aes(y = factor(x), x = p, color=factor(y))) +
@@ -433,7 +424,6 @@ $$
 2 * 0.76 + 3 * 0.24
 ```
 
-
 $$
 E(Y | X=0) = \sum_{y = 2}^{3} y p_{Y|X=0}(y) = 2 \times 0.964 + 3 \times 0.036 = 2.036
 $$
@@ -441,7 +431,6 @@ $$
 ```{r}
 2 * 0.964 + 3 * 0.036
 ```
-
 
 $$
 E(Y | X = x) = \begin{cases}
@@ -466,7 +455,6 @@ pxy %>%
   ) %>%
   knitr::kable(digits = 3)
 ```
-
 
 ::: {#exr-cond-exp-ind}
 Calculate the expected value of $Y$ given $X$ for every possible value of $X$ in the case joint distribution under independence.
@@ -511,13 +499,12 @@ Cov(X, Y) = E(XY) - E(X)E(Y)
 $$
 :::
 
-
 ::: {#def-correlation}
 ## Die Korrelation
 
 $$
 \rho(X, Y) = \frac{Cov(X, Y)}{\sqrt{Var(X)Var(Y)}}
-$$ 
+$$
 
 Die Korrelation ist ein Maß für die lineare Beziehung zwischen zwei Zufallsvariablen. Es ist ein dimensionsloses Maß, das zwischen -1 und 1 liegt.
 
