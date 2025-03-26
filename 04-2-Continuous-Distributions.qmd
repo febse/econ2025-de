@@ -183,7 +183,6 @@ unif_games %>%
 ## Wahrscheinlichkeiten und Quantile der Normalverteilung
 
 
-
 ```{r, echo = FALSE}
 #| label: fig-norm
 #| fig-cap: Die Dichte der Standardnormalverteilung und die Wahrscheinlichkeit des Ereignisses $-1.96 < X < 1.96$.

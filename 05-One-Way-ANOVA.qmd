@@ -39,10 +39,16 @@ kids %>%
   knitr::kable()
 ```
 
-Variables description:
+Beschreibung der Variablen in der Datei `kids.csv`:
 
 -   `kid_score`: (numeric) IQ-Wert
 -   `mom_hs` (numeric): 1: Mutter hat einen High-School Abschluss, 0: Mutter hat keinen High-School Abschluss
+
+
+
+In dieser Aufgabe werden wir annehmen, dass die Kinder rein zufällig aus allen Kindern im Alter zwischen 3 und 5 Jahren in den USA ausgewählt wurden (zur Zeit der Untersuchung).
+
+Wir möchten die folgende Forschungsfrage untersuchen: Erreichen Kinder, deren Mutter keinen High School Abschluss hat, im Durchschnitt niedrigere IQ-Werte als Kinder, deren Mutter einen High School Abschluss hat?
 
 ```{r}
 #| label: fig-kid-score-plot
@@ -105,3 +111,130 @@ $$
 
 ```
 :::
+
+## Das Modell
+
+Um das Modell aufzuschreiben, indexieren wir die Beobachtungen (hier die Kinder) mit $i=1,2,\ldots,n = 343$. Es sei $y_i$ der IQ-Wert von Kind $i$ und $x_i \in \{0, 1\}$ der Bildungsstatus der Mutter von Kind $i$.
+
+$$
+\begin{align*}
+y_i & = \beta_0 + \beta_1 x_i + e_i, \quad i = 1,2,\ldots,n \\
+e_i & \sim \text{i.i.d. } N(0, \sigma^2)
+\end{align*}
+$$
+
+Für alle Kinder mit $x_i = 0$ bedeutet das Modell:
+
+$$
+\begin{align*}
+y_i & = \beta_0 + e_i, \quad i = 1,2,\ldots,n \\
+e_i & \sim \text{i.i.d. } N(0, \sigma^2)
+\end{align*}
+$$
+
+Das heisst, dass die IQ-Werte der Kinder, deren Mutter keinen High School Abschluss hat, normalverteilt sind mit Erwartungswert $\beta_0$ und Varianz $\sigma^2$.
+
+Für alle Kinder mit $x_i = 1$ bedeutet das Modell:
+
+$$
+\begin{align*}
+y_i & = \beta_0 + \beta_1 + e_i, \quad i = 1,2,\ldots,n \\
+e_i & \sim \text{i.i.d. } N(0, \sigma^2)
+\end{align*}
+$$
+
+Das heisst, dass die IQ-Werte der Kinder, deren Mutter einen High School Abschluss hat, normalverteilt sind mit Erwartungswert $\beta_0 + \beta_1$ und Varianz $\sigma^2$.
+
+```{r}
+#| label: fig-kids-model-plot
+#| fig-cap: "Das lineare Modell für die IQ-Werte der Kinder."
+
+
+ggplot() +
+  # Sets the range of the x-axis from -2 to 2
+  xlim(c(0, 180)) +
+  stat_function(
+    fun = dnorm, 
+    args = list(
+      mean = 77,
+      sd = 20
+      ),
+    n = 1000,
+    aes(color = "Mother without HS")
+  ) +
+  stat_function(
+    fun = dnorm, 
+    args = list(
+      mean = 100,
+      sd = 20
+      ),
+    n = 1000,
+    aes(color = "Mother with HS")
+  ) +
+  labs(
+    x = "x",
+    y = "Density"
+  ) + 
+  scale_colour_manual("Group", values = c("steelblue", "firebrick")) + 
+  geom_vline(xintercept = 77, lty = 2, alpha = 0.5, color = "firebrick") + 
+  geom_vline(xintercept = 100, lty = 2, alpha = 0.5, color = "steelblue") + 
+  labs(
+    x = "IQ score"
+  ) + 
+  scale_x_continuous(
+    breaks = c(77, 100), 
+    labels = latex2exp::TeX(c("$\\mu_{0}$", "$\\mu_{1}$")), 
+    limits = c(0, 200)
+  ) + 
+  geom_segment(
+    data = tribble(
+      ~x, ~y, ~xend, ~yend,
+      77, 0.005, 100, 0.005
+    ),
+    aes(x = x, y = y, xend = xend, yend = yend)
+  ) + 
+  geom_text(
+    data = tibble(
+      x = 90,
+      y = 0.005,
+      z = "$\\beta_1$"
+    ),
+    aes(x = x, y = y, label = latex2exp::TeX(z, output = "character")),
+    parse = TRUE,
+    nudge_y = 0.001
+  ) +
+  theme(
+    legend.position = "bottom"
+  )
+```
+
+## Verteilung der geschätzten Koeffizienten
+
+Die Formel für die geschätzten Koeffizienten lautet wie folgt:
+
+$$
+\begin{align*}
+\hat{\beta}_1 & = \frac{\sum_{i=1}^n (x_i - \bar{x})(y_i - \bar{y})}{\sum_{i=1}^n (x_i - \bar{x})^2} \\
+\hat{\beta}_0 & = \bar{y} - \hat{\beta}_1 \bar{x}
+\end{align*}
+$$
+
+Da die geschätzten Koeffizienten offensichtlich von den Daten abhängen, sind sie Zufallsvariablen. Um diese Verteilung zu veranschaulichen, werden wir eine Simulation durchführen.
+
+Wir werden eine grosse Anzahl von Stichproben aus der Verteilung der IQ-Werte der Kinder ziehen und für jede Stichprobe das lineare Modell schätzen. Die Verteilung der geschätzten Koeffizienten wird dann die Verteilung der geschätzten Koeffizienten sein.
+
+
+```{r}
+# Simulate 2000 samples from the distribution of the IQ scores of the kids
+
+n_samples <- 2000
+
+simulated_samples <- kids %>%
+  rep_sample_n(size = n_samples, replace = TRUE) %>%
+  mutate(
+    ## Add some noise to the IQ scores
+    kid_score = rnorm(n(), mean = kid_score, sd = 10)
+  )
+
+
+```
