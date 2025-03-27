@@ -207,34 +207,3 @@ ggplot() +
     legend.position = "bottom"
   )
 ```
-
-## Verteilung der geschätzten Koeffizienten
-
-Die Formel für die geschätzten Koeffizienten lautet wie folgt:
-
-$$
-\begin{align*}
-\hat{\beta}_1 & = \frac{\sum_{i=1}^n (x_i - \bar{x})(y_i - \bar{y})}{\sum_{i=1}^n (x_i - \bar{x})^2} \\
-\hat{\beta}_0 & = \bar{y} - \hat{\beta}_1 \bar{x}
-\end{align*}
-$$
-
-Da die geschätzten Koeffizienten offensichtlich von den Daten abhängen, sind sie Zufallsvariablen. Um diese Verteilung zu veranschaulichen, werden wir eine Simulation durchführen.
-
-Wir werden eine grosse Anzahl von Stichproben aus der Verteilung der IQ-Werte der Kinder ziehen und für jede Stichprobe das lineare Modell schätzen. Die Verteilung der geschätzten Koeffizienten wird dann die Verteilung der geschätzten Koeffizienten sein.
-
-
-```{r}
-# Simulate 2000 samples from the distribution of the IQ scores of the kids
-
-n_samples <- 2000
-
-simulated_samples <- kids %>%
-  rep_sample_n(size = n_samples, replace = TRUE) %>%
-  mutate(
-    ## Add some noise to the IQ scores
-    kid_score = rnorm(n(), mean = kid_score, sd = 10)
-  )
-
-
-```

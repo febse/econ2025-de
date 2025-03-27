@@ -61,16 +61,6 @@ $$
 \sum_{x = 0}^{3}p_X(x) = 0.250 + 0.095 + 0.272 + 0.383 = 1
 $$
 
-::: {#exr-prob-y}
-## Wahrscheinlichkeitsfunktion von $Y$
-
-Benuzten Sie die `sum` Funktion um zu zeigen, dass die Wahrscheinlichkeitsfunktion von $Y$ zu eins summiert.
-
-```{r}
-
-```
-:::
-
 ::: {#exm-sampling-x}
 ## Zufällige Stichproben von $X$
 
@@ -86,13 +76,40 @@ head(smpl_x) %>%
 
 Wir können die beobachteten Häufigkeiten der Ausgänge visualisieren.
 
-```{r}
-# Absolute frequencies (counts)
-table(smpl_x$x)
+::: {#exm-sampling-x}
+## Sampling from a uni-variate distribution
 
-# Relative frequencies (shares)
-table(smpl_x$x) / nrow(smpl_x)
+```{r}
+set.seed(12)
+
+smpl_x <- px %>%
+  slice_sample(n = 20000, weight_by = p, replace = TRUE)
+  
+smpl_x_summary <- smpl_x %>%
+  group_by(x) %>%
+  summarize(
+    n = n(),
+    ObservedShare = n / nrow(smpl_x),
+    Probability = first(p)
+  )
+smpl_x_summary
 ```
+
+It is useful to visualize the observed frequency of each outcome.
+
+```{r}
+smpl_x_summary %>%
+  select(x, ObservedShare, Probability) %>%
+  pivot_longer(cols = c(ObservedShare, Probability), names_to="type", values_to="value") %>%
+  ggplot(aes(x = x, y = value, fill = type)) +
+    geom_col(position = "dodge") +
+    labs(
+      x = "Outcome",
+      y = "Share",
+      fill = "Type"
+    )
+```
+:::
 
 ```{r}
 smpl_x %>%
@@ -132,21 +149,18 @@ $$
 $$
 
 ```{r}
-mu_x <- sum(px$x * px$p)
-mu_x
-
 mean(smpl_x$x)
 ```
 
 ```{r}
-px %>%
-  ggplot(aes(x = x, y = p)) + 
-    geom_col() + 
-    labs(
-      x = "Ausgang",
-      y = "Wahrscheinlichkeit"
-    ) + 
-    geom_vline(xintercept = mu_x, color = "firebrick")
+# px %>%
+#   ggplot(aes(x = x, y = p)) + 
+#     geom_col() + 
+#     labs(
+#       x = "Ausgang",
+#       y = "Wahrscheinlichkeit"
+#     ) + 
+#     geom_vline(xintercept = mu_x, color = "firebrick")
 ```
 
 ::: {#exr-expectation}
@@ -216,13 +230,9 @@ Var(X) & = \sum_{x = 0}^{3} (x - \mu_x)^2 \times p_X(x) \\
 $$ {#eq-variance}
 
 ```{r}
-(px$x - mu_x)
-(px$x - mu_x)^2
-px$p * (px$x - mu_x)^2
-sum(px$p * (px$x - mu_x)^2)
-```
+# Berechnen Sie die Varianz und die Standardabweichung von X
 
-You can see from @eq-variance that it is the expected value of the squared deviations from the expected value.
+```
 
 $$
 Var(X) = E(X - E(X))^2 = \sum_{x} (x - E(X))^2 p_X(x)
@@ -249,26 +259,6 @@ Berechnen Sie die Varianz von $Y$.
 # Type your code here
 
 ```
-:::
-
-::: {#thm-exp-value-props}
-## Eigenschaften des Erwartungswertes
-
-Es sei $X$ eine Zufallsvariable mit Erwartungswert $E(X)$, $Y$ eine Zufallsvariable mit Erwartungswert $E(Y)$ und $a$ eine feste Konstante ($a \in \mathbb{R}$). Der Erwartungsweropeartor $E$ hat die folgenden Eigenschaften:
-
-$$
-\begin{align}
-E(a) & = a \\
-E(aX) & = aE(X) \\
-E(X + Y) & = E(X) + E(Y)
-\end{align}
-$$
-
-Ferner gilt, wenn $X$ und $Y$ *unkorreliert* sind, dann gilt für das Produkt der beiden Zufallsvariablen:
-
-$$
-E(XY) = E(X)E(Y)
-$$
 :::
 
 ## Die gemeinsame Verteilung
