@@ -18,6 +18,7 @@ book:
     - 05-One-Way-ANOVA.qmd
     - 06-Simulation.qmd
     - 09-Categorical-Variables.ipynb
+    - 10-Interaction-Effects.ipynb
     # - 07-Multiple-Regression.qmd
     # - 08-Interactions.qmd
     # - lecture_problems.qmd
