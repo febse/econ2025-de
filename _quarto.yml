@@ -17,9 +17,9 @@ book:
     - 04-2-Continuous-Distributions.qmd
     - 05-One-Way-ANOVA.qmd
     - 06-Simulation.qmd
+    - 08-Multiple-Regression.ipynb
     - 09-Categorical-Variables.ipynb
-    - 10-Interaction-Effects.ipynb
-    # - 07-Multiple-Regression.qmd
+    - 10-Interaction-Effects.ipynb    
     # - 08-Interactions.qmd
     # - lecture_problems.qmd
     # - 00-Homework-Instructions.qmd  
